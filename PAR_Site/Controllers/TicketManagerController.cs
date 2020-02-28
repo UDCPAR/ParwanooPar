@@ -377,25 +377,26 @@ namespace PAR_Site.Controllers
             string to = "";
             string GreatingName = "";
             int TicketID = Convert.ToInt32(TempData["TicketID"]);
+            List<tblUserIndex> tblUsers = db.tblUserIndexes.ToList();
             var obj = db.tblTicketIndexes.Where(x => x.TicketID == TicketID).FirstOrDefault();
             int loggedUserID = Convert.ToInt32(Session["UserID"]);
             if (loggedUserID == obj.UserID)
             {
-                to = db.tblUserIndexes.Where(x => x.UserID == obj.TechID).Select(y => y.EmailAddress).FirstOrDefault();
-                GreatingName = db.tblUserIndexes.Where(x => x.UserID == obj.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
+                to = tblUsers.Where(x => x.UserID == obj.TechID).Select(y => y.EmailAddress).FirstOrDefault();
+                GreatingName = tblUsers.Where(x => x.UserID == obj.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
             }
             else if (loggedUserID == obj.TechID)
             {
-                to = db.tblUserIndexes.Where(x => x.UserID == obj.UserID).Select(y => y.EmailAddress).FirstOrDefault();
-                GreatingName = db.tblUserIndexes.Where(x => x.UserID == obj.UserID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
+                to = tblUsers.Where(x => x.UserID == obj.UserID).Select(y => y.EmailAddress).FirstOrDefault();
+                GreatingName = tblUsers.Where(x => x.UserID == obj.UserID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
             }
             else
             {
-                to = db.tblUserIndexes.Where(x => x.UserID == obj.UserID).Select(y => y.EmailAddress).FirstOrDefault() + "," + db.tblUserIndexes.Where(x => x.UserID == obj.TechID).Select(y => y.EmailAddress).FirstOrDefault();
+                to = tblUsers.Where(x => x.UserID == obj.UserID).Select(y => y.EmailAddress).FirstOrDefault() + "," + tblUsers.Where(x => x.UserID == obj.TechID).Select(y => y.EmailAddress).FirstOrDefault();
             }
             var comment = db.tblTicketDatas.Where(x => x.TicketID == TicketID).ToList();
-            string Initiatedby = db.tblUserIndexes.Where(x => x.UserID == obj.UserID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
-            string AssignName = db.tblUserIndexes.Where(x => x.UserID == obj.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
+            string Initiatedby = tblUsers.Where(x => x.UserID == obj.UserID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
+            string AssignName = tblUsers.Where(x => x.UserID == obj.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
             string Status = db.tblTicketStatusIndexes.Where(x => x.TicketStatusID == obj.TicketStatusID).FirstOrDefault().TicketStatus;
             string from = "";
             MailMessage message = new MailMessage(from, to);
