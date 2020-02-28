@@ -1,0 +1,89 @@
+﻿@model IEnumerable<PAR_Site.Models.ViewModel>
+
+@using (Html.BeginForm("Index", "Default", FormMethod.Post))
+{
+
+    <div class="col-lg-9">
+        <div class="col-lg-12" style="background-color:lightskyblue;color:white;">
+            <h5><b>System Message</b></h5>
+        </div>
+        <div style="padding-top:40px;">
+            <h5><b>Welcome...</b></h5>
+            <p>Welcome to the online <b>P</b>roblem <b>A</b>ction <b>R</b>eporting system for customers and clients of Utility Data Contractors, Inc (UDC). This PAR system allows for more efficient question and resolution tracking by...</p>
+            <ul>
+                <li>Allowing direct access and file sharing between UDC and their clients</li>
+                <li>Prioritizing and delegating PARs to the appropriate personnel</li>
+                <li>Accurately managing and reporting issues for our customers</li>
+            </ul>
+            <p>In order to quickly complete requests, we strongly encourage all of our clients to submit all questions/PARS using this system</p>
+        </div>
+        <div class="col-lg-12" style="border:1px solid black;">
+            <div class="col-lg-2" style="border-right:1px solid black;">Showing</div>
+            <div class="col-lg-3" style="border-right:1px solid black;"><b>@ViewBag.showing</b>
+            </div>
+            <div class="col-lg-3" style="border-right:1px solid black;"><b>Filter Assign To:</b></div>
+            <div class="col-lg-2" style="border-right:1px solid black;">
+                <div class="">
+                    @Html.DropDownList("TechName", new SelectList(ViewBag.username, "Value", "Text"), "All", new { @id = "TechName" })
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <button class="" style="width:100px;" type="submit" id="btnfilter">Filter</button>
+            </div>
+        </div>
+        <div class="col-lg-12" style="background-color:skyblue;border:1px solid black; height:25px;"><b>Open PAR Summary</b></div>
+        <div class="col-lg-3" id="TimeDiv">
+            <b>Time Frame</b>
+        </div>
+        <div class="col-lg-3" id="TimeDiv">
+            <b> < 5 Days</b>
+        </div>
+        <div class="col-lg-3" id="TimeDiv">
+            <b> > 5 Days</b>
+        </div>
+        <div class="col-lg-3" id="TimeDiv">
+            <b> > 10 Days</b>
+        </div>
+        <div class="col-lg-3" id="TimeDiv">
+            <b> Par</b>
+        </div>
+        <div class="col-lg-3" id="CountDiv"><b>@ViewBag.beforefiveday</b></div>
+        <div class="col-lg-3" id="CountDiv"><b>@ViewBag.beforeTenday</b></div>
+        <div class="col-lg-3" id="CountDiv"><b>@ViewBag.TotalCountForTen</b></div>
+        <div class="col-lg-12" style="background-color:skyblue; margin-top:20px;">
+            <b>Open PARs</b>
+        </div>
+        <table class="table-striped" width="100%">
+            <tbody>
+                <tr>
+                    <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
+                    <td><div style="width:237px;" id="OpenPars">Subject</div></td>
+                    <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
+                    <td><div style="width:97px;" id="OpenPars">Opened</div></td>
+                    <td><div style="width:100px;" id="OpenPars">Status</div></td>
+                    <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
+                    <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><div style="width:99px;" id="ParFields">@item.Map</div></td>
+                        <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
+                        <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
+                        <td><div style="width:97px;" id="ParFields">@item.OpenDate</div></td>
+                        <td><div style="width:100px;" id="ParFields">@item.Status</div></td>
+                        <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
+                        <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+        <div class="col-lg-12" style="background-color:skyblue; margin-top:20px;">
+            <b>Help Documents</b>
+        </div>
+    </div>
+
+}
+
+

@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title UDC PAR's</title>
+    @*@Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/MyStyleSheet.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript">
+        var myVar;
+        var UTCTime;
+        var x;
+        var countDownDate;
+        window.onload = function () {
+            x = setInterval(myTimer, 1000)
+        };
+        function myTimer() {
+            $.ajax({
+                type: "GET",
+                url: "/Account/GetCurrentTime",
+                success: function (time) {
+                    UTCTime = time;
+                }
+            });
+        }
+
+        myVar = setInterval(Coundown, 1000)
+        function Coundown() {
+            var _UTCTime = UTCTime;
+            countDownDate = "@Session["CountDownTime"]";
+            if (countDownDate != "") {
+                sessionStorage.setItem("CountDownTime", countDownDate);
+            }
+            else {
+                countDownDate = sessionStorage.getItem("CountDownTime");
+            }
+            countDownDate = new Date(countDownDate).getTime();
+            var now = new Date(_UTCTime).getTime();
+            var distance = countDownDate - now;
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (minutes < 5 && minutes >= 0 && countDownDate != "") {
+                if (document.getElementById("SpinTime") != null)
+                    document.getElementById("session").style.display = "block";
+                    document.getElementById("SpinTime").innerHTML = minutes + "m " + seconds + "s ";
+            }
+
+            if (minutes == 0 && seconds == 0 && countDownDate != "") {
+                clearInterval(myVar);
+                $.ajax({
+                    url: '/Account/Logout',
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({}),
+                    datatype: 'application/json',
+                    success: function (result) {
+                        window.location.href = "@Url.Action("Login","Account")";
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Whooaaa! Something went wrong..")
+                    },
+                });
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="col-lg-9" style="padding-top:30px;">
+            <img src="~/Images/UDCLogo.png" />
+            <h5 id="session" style="display:none;"><b>Session is expire after: <span id="SpinTime"></span></b></h5>
+            
+        </div>
+        <div class="col-lg-3" style="padding-top:30px;">
+            <div class="col-lg-12"><img style="float:right" src="~/Images/logo-pge.gif" /></div>
+            <div class="col-lg-12"><p class="btnlogout"><b>Welcome</b> @Html.Label((string)Session["UserName"])<a href="@Url.Action("Logout", "Account")" id="logout"> Logout</a></p></div>
+        </div>
+    </div>
+    <div class="container body-content">
+            @RenderBody()
+        <div class="col-lg-3">
+            <div class="col-lg-12" style="margin-left:-25px;background-color:lightskyblue; color:white;">
+                <h5><b>Menu</b></h5>
+            </div>
+            <div class="col-lg-12">
+                <ul style="padding:0;margin-left:-20px;">
+                    <li><a href="~/TicketManager/CreatePars">Create New PAR</a></li>
+                    <li><a href="~/TicketManager/ViewTotalPars">View PAR History</a></li>
+                    <li><a href="~/FileLibrary/Filelibrary">File Library</a></li>
+                    <li><a href="~/Account/AccountInformation">Account Information</a></li>
+                    <li><a href="~/FileLibrary/SearchPar">Search PAR's</a></li>
+                    <li><a href="~/FileLibrary/OutPutPars">Output PAR's</a></li>
+                    @if (Session["UserType"] != null)
+                    {
+                        <li><a href="~/Account/NewUser">Add New User</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>

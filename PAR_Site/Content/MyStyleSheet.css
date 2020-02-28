@@ -1,0 +1,66 @@
+﻿.btnlogout {
+    float: right;
+}
+#TimeDiv {
+    background-color: lightgrey;
+    border: 1px solid black;
+    height: 25px;
+}
+
+#CountDiv {
+    border: 1px solid black;
+    height: 25px;
+}
+
+#OpenPars {
+    background-color: lightgray;
+    border: 1px solid white;
+    font-size: small;
+    height: 40px;
+    text-align: center;
+}
+
+#ParFields {
+    font-size: 13px;
+    text-align: center;
+}
+#NewPar_Title {
+    background-color: lightgray;
+    border: 1px solid black;
+    font-weight: bold;
+    height: 40px;
+    font-size: 13px;
+}
+#NewPar_Input {
+    background-color: whitesmoke;
+    border: 1px solid black;
+    height: 40px;
+    padding-top: 7px;
+}
+
+#NewPar_DescriptionTitle {
+    background-color: lightgray;
+    border: 1px solid black;
+    height: 170px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+#NewPar_Description {
+    background-color: whitesmoke;
+    border: 1px solid black;
+    height: 170px;
+}
+
+#TxtSubject {
+    width: 100%;
+}
+
+
+#Input_Fields{
+    width:100%;
+}
+#ddl_Fields{
+    width: 100%;
+    height: 27px;
+}

@@ -1,0 +1,670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NagParTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParTest.dbo.tblCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="Category" Type="char" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParTest.dbo.tblCustomerIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblCustomerIndex">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="Address1" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="StateProvince" />
+            <PropertyRef Name="PostalCode" />
+            <PropertyRef Name="CountryCode" />
+            <PropertyRef Name="Phone" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Address1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address2" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StateProvince" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fax" Type="varchar" MaxLength="50" />
+          <Property Name="WebSiteAddress" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblDivisionIndex">
+          <Key>
+            <PropertyRef Name="DivisionID" />
+          </Key>
+          <Property Name="DivisionName" Type="char" MaxLength="50" />
+          <Property Name="DivisionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblFileLibrary">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="OFileName" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="FileSize" Type="int" Nullable="false" />
+          <Property Name="FileExt" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UploadDateTime" Type="datetime" Nullable="false" />
+          <Property Name="TicketID" Type="int" />
+          <Property Name="ProjectType" Type="varchar" MaxLength="20" />
+          <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParTest.dbo.tblPriorityIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblPriorityIndex">
+          <Key>
+            <PropertyRef Name="Priority" />
+          </Key>
+          <Property Name="Priority" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="SortOrder" Type="int" />
+        </EntityType>
+        <EntityType Name="tblProjectPhase">
+          <Key>
+            <PropertyRef Name="SortOrder" />
+          </Key>
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="SortOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSubjectIndex">
+          <Key>
+            <PropertyRef Name="SortOrder" />
+          </Key>
+          <Property Name="Subject" Type="char" MaxLength="255" />
+          <Property Name="SortOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParTest.dbo.tblTechIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblTechIndex">
+          <Key>
+            <PropertyRef Name="TechID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="AccessLevelID" />
+          </Key>
+          <Property Name="TechID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AccessLevelID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTicketData">
+          <Key>
+            <PropertyRef Name="ResponseID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="TicketID" Type="int" Nullable="false" />
+          <Property Name="TicketNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UpdateDateTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="TechID" Type="int" Nullable="false" />
+          <Property Name="UpdateDescription" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="ProjectType" Type="varchar" MaxLength="20" />
+          <Property Name="ResponseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTicketIndex">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="TicketNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TicketTypeID" Type="int" />
+          <Property Name="TicketStatusID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="TicketTitle" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TicketDescription" Type="varchar" MaxLength="5000" Nullable="false" />
+          <Property Name="TicketOpen" Type="datetime" Nullable="false" />
+          <Property Name="TicketClose" Type="datetime" />
+          <Property Name="OpenedBy" Type="int" Nullable="false" />
+          <Property Name="TimeEstimate" Type="varchar" MaxLength="50" />
+          <Property Name="TimeActual" Type="varchar" MaxLength="50" />
+          <Property Name="CostEstimate" Type="varchar" MaxLength="50" />
+          <Property Name="CostActual" Type="varchar" MaxLength="50" />
+          <Property Name="TechID" Type="int" Nullable="false" />
+          <Property Name="TownName" Type="char" MaxLength="50" />
+          <Property Name="DivisionName" Type="char" MaxLength="50" />
+          <Property Name="Grid" Type="char" MaxLength="10" />
+          <Property Name="TypeOfMap" Type="varchar" MaxLength="255" />
+          <Property Name="WorkUnit" Type="char" MaxLength="10" />
+          <Property Name="Category" Type="varchar" MaxLength="255" />
+          <Property Name="Map" Type="varchar" MaxLength="50" />
+          <Property Name="ClosedBy" Type="int" />
+          <Property Name="ProjectType" Type="varchar" MaxLength="20" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProjectPhase" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProjectType1" Type="nvarchar" MaxLength="50" />
+          <Property Name="JobPackage" Type="nvarchar" MaxLength="50" />
+          <Property Name="TicketID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParTest.dbo.tblTicketStatusIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblTicketStatusIndex">
+          <Key>
+            <PropertyRef Name="TicketStatusID" />
+            <PropertyRef Name="TicketStatus" />
+          </Key>
+          <Property Name="TicketStatusID" Type="int" Nullable="false" />
+          <Property Name="TicketStatus" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserAccountTypeID" Type="int" />
+          <Property Name="StatusOrder" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParTest.dbo.tblTicketTypeIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblTicketTypeIndex">
+          <Key>
+            <PropertyRef Name="TicketTypeID" />
+            <PropertyRef Name="TicketType" />
+          </Key>
+          <Property Name="TicketTypeID" Type="int" Nullable="false" />
+          <Property Name="TicketType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortOrder" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblTypeOfMap">
+          <Key>
+            <PropertyRef Name="TypeOfMap" />
+          </Key>
+          <Property Name="TypeOfMap" Type="char" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUserIndex">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="AccountTypeID" Type="int" Nullable="false" />
+          <Property Name="AccountStatusID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="NagParTestModelStoreContainer">
+          <EntitySet Name="tblDivisionIndex" EntityType="Self.tblDivisionIndex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFileLibrary" EntityType="Self.tblFileLibrary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProjectPhase" EntityType="Self.tblProjectPhase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSubjectIndex" EntityType="Self.tblSubjectIndex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTicketData" EntityType="Self.tblTicketData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTicketIndex" EntityType="Self.tblTicketIndex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUserIndex" EntityType="Self.tblUserIndex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCategory" EntityType="Self.tblCategory" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblCategory].[Category] AS [Category]
+    FROM [dbo].[tblCategory] AS [tblCategory]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblCustomerIndex" EntityType="Self.tblCustomerIndex" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblCustomerIndex].[CustomerID] AS [CustomerID], 
+    [tblCustomerIndex].[CompanyName] AS [CompanyName], 
+    [tblCustomerIndex].[Address1] AS [Address1], 
+    [tblCustomerIndex].[Address2] AS [Address2], 
+    [tblCustomerIndex].[City] AS [City], 
+    [tblCustomerIndex].[StateProvince] AS [StateProvince], 
+    [tblCustomerIndex].[PostalCode] AS [PostalCode], 
+    [tblCustomerIndex].[CountryCode] AS [CountryCode], 
+    [tblCustomerIndex].[Phone] AS [Phone], 
+    [tblCustomerIndex].[Fax] AS [Fax], 
+    [tblCustomerIndex].[WebSiteAddress] AS [WebSiteAddress]
+    FROM [dbo].[tblCustomerIndex] AS [tblCustomerIndex]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblPriorityIndex" EntityType="Self.tblPriorityIndex" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblPriorityIndex].[Priority] AS [Priority], 
+    [tblPriorityIndex].[SortOrder] AS [SortOrder]
+    FROM [dbo].[tblPriorityIndex] AS [tblPriorityIndex]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblTechIndex" EntityType="Self.tblTechIndex" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblTechIndex].[TechID] AS [TechID], 
+    [tblTechIndex].[FirstName] AS [FirstName], 
+    [tblTechIndex].[LastName] AS [LastName], 
+    [tblTechIndex].[Username] AS [Username], 
+    [tblTechIndex].[Password] AS [Password], 
+    [tblTechIndex].[AccessLevelID] AS [AccessLevelID]
+    FROM [dbo].[tblTechIndex] AS [tblTechIndex]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblTicketStatusIndex" EntityType="Self.tblTicketStatusIndex" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblTicketStatusIndex].[TicketStatusID] AS [TicketStatusID], 
+    [tblTicketStatusIndex].[TicketStatus] AS [TicketStatus], 
+    [tblTicketStatusIndex].[UserAccountTypeID] AS [UserAccountTypeID], 
+    [tblTicketStatusIndex].[StatusOrder] AS [StatusOrder]
+    FROM [dbo].[tblTicketStatusIndex] AS [tblTicketStatusIndex]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblTicketTypeIndex" EntityType="Self.tblTicketTypeIndex" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblTicketTypeIndex].[TicketTypeID] AS [TicketTypeID], 
+    [tblTicketTypeIndex].[TicketType] AS [TicketType], 
+    [tblTicketTypeIndex].[SortOrder] AS [SortOrder]
+    FROM [dbo].[tblTicketTypeIndex] AS [tblTicketTypeIndex]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblTypeOfMap" EntityType="Self.tblTypeOfMap" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblTypeOfMap].[TypeOfMap] AS [TypeOfMap]
+    FROM [dbo].[tblTypeOfMap] AS [tblTypeOfMap]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NagParTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblDivisionIndex">
+          <Key>
+            <PropertyRef Name="DivisionID" />
+          </Key>
+          <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="DivisionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="tblFileLibrary">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="OFileName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FileSize" Type="Int32" Nullable="false" />
+          <Property Name="FileExt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UploadDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TicketID" Type="Int32" />
+          <Property Name="ProjectType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="tblProjectPhase">
+          <Key>
+            <PropertyRef Name="SortOrder" />
+          </Key>
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="tblSubjectIndex">
+          <Key>
+            <PropertyRef Name="SortOrder" />
+          </Key>
+          <Property Name="Subject" Type="String" MaxLength="255" FixedLength="true" Unicode="false" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="tblTicketData">
+          <Key>
+            <PropertyRef Name="ResponseID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="TicketID" Type="Int32" Nullable="false" />
+          <Property Name="TicketNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UpdateDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="TechID" Type="Int32" Nullable="false" />
+          <Property Name="UpdateDescription" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProjectType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="tblTicketIndex">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="TicketNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TicketTypeID" Type="Int32" />
+          <Property Name="TicketStatusID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="TicketTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TicketDescription" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TicketOpen" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TicketClose" Type="DateTime" Precision="3" />
+          <Property Name="OpenedBy" Type="Int32" Nullable="false" />
+          <Property Name="TimeEstimate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TimeActual" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CostEstimate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CostActual" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TechID" Type="Int32" Nullable="false" />
+          <Property Name="TownName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="Grid" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="TypeOfMap" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="WorkUnit" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Map" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ClosedBy" Type="Int32" />
+          <Property Name="ProjectType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectPhase" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectType1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JobPackage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TicketID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="tblUserIndex">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AccountTypeID" Type="Int32" Nullable="false" />
+          <Property Name="AccountStatusID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCustomerIndex">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="Address1" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="StateProvince" />
+            <PropertyRef Name="PostalCode" />
+            <PropertyRef Name="CountryCode" />
+            <PropertyRef Name="Phone" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StateProvince" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountryCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WebSiteAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblPriorityIndex">
+          <Key>
+            <PropertyRef Name="Priority" />
+          </Key>
+          <Property Name="Priority" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblTechIndex">
+          <Key>
+            <PropertyRef Name="TechID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="AccessLevelID" />
+          </Key>
+          <Property Name="TechID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AccessLevelID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTicketStatusIndex">
+          <Key>
+            <PropertyRef Name="TicketStatusID" />
+            <PropertyRef Name="TicketStatus" />
+          </Key>
+          <Property Name="TicketStatusID" Type="Int32" Nullable="false" />
+          <Property Name="TicketStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserAccountTypeID" Type="Int32" />
+          <Property Name="StatusOrder" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblTicketTypeIndex">
+          <Key>
+            <PropertyRef Name="TicketTypeID" />
+            <PropertyRef Name="TicketType" />
+          </Key>
+          <Property Name="TicketTypeID" Type="Int32" Nullable="false" />
+          <Property Name="TicketType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblTypeOfMap">
+          <Key>
+            <PropertyRef Name="TypeOfMap" />
+          </Key>
+          <Property Name="TypeOfMap" Type="String" MaxLength="30" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="NagParTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblDivisionIndexes" EntityType="Self.tblDivisionIndex" />
+          <EntitySet Name="tblFileLibraries" EntityType="Self.tblFileLibrary" />
+          <EntitySet Name="tblProjectPhases" EntityType="Self.tblProjectPhase" />
+          <EntitySet Name="tblSubjectIndexes" EntityType="Self.tblSubjectIndex" />
+          <EntitySet Name="tblTicketDatas" EntityType="Self.tblTicketData" />
+          <EntitySet Name="tblTicketIndexes" EntityType="Self.tblTicketIndex" />
+          <EntitySet Name="tblUserIndexes" EntityType="Self.tblUserIndex" />
+          <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
+          <EntitySet Name="tblCustomerIndexes" EntityType="Self.tblCustomerIndex" />
+          <EntitySet Name="tblPriorityIndexes" EntityType="Self.tblPriorityIndex" />
+          <EntitySet Name="tblTechIndexes" EntityType="Self.tblTechIndex" />
+          <EntitySet Name="tblTicketStatusIndexes" EntityType="Self.tblTicketStatusIndex" />
+          <EntitySet Name="tblTicketTypeIndexes" EntityType="Self.tblTicketTypeIndex" />
+          <EntitySet Name="tblTypeOfMaps" EntityType="Self.tblTypeOfMap" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NagParTestModelStoreContainer" CdmEntityContainer="NagParTestEntities">
+          <EntitySetMapping Name="tblDivisionIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblDivisionIndex">
+              <MappingFragment StoreEntitySet="tblDivisionIndex">
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFileLibraries">
+            <EntityTypeMapping TypeName="NagParTestModel.tblFileLibrary">
+              <MappingFragment StoreEntitySet="tblFileLibrary">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OFileName" ColumnName="OFileName" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileExt" ColumnName="FileExt" />
+                <ScalarProperty Name="UploadDateTime" ColumnName="UploadDateTime" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProjectPhases">
+            <EntityTypeMapping TypeName="NagParTestModel.tblProjectPhase">
+              <MappingFragment StoreEntitySet="tblProjectPhase">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSubjectIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblSubjectIndex">
+              <MappingFragment StoreEntitySet="tblSubjectIndex">
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTicketDatas">
+            <EntityTypeMapping TypeName="NagParTestModel.tblTicketData">
+              <MappingFragment StoreEntitySet="tblTicketData">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TechID" ColumnName="TechID" />
+                <ScalarProperty Name="UpdateDescription" ColumnName="UpdateDescription" />
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="ResponseID" ColumnName="ResponseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTicketIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblTicketIndex">
+              <MappingFragment StoreEntitySet="tblTicketIndex">
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="TicketTypeID" ColumnName="TicketTypeID" />
+                <ScalarProperty Name="TicketStatusID" ColumnName="TicketStatusID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TicketTitle" ColumnName="TicketTitle" />
+                <ScalarProperty Name="TicketDescription" ColumnName="TicketDescription" />
+                <ScalarProperty Name="TicketOpen" ColumnName="TicketOpen" />
+                <ScalarProperty Name="TicketClose" ColumnName="TicketClose" />
+                <ScalarProperty Name="OpenedBy" ColumnName="OpenedBy" />
+                <ScalarProperty Name="TimeEstimate" ColumnName="TimeEstimate" />
+                <ScalarProperty Name="TimeActual" ColumnName="TimeActual" />
+                <ScalarProperty Name="CostEstimate" ColumnName="CostEstimate" />
+                <ScalarProperty Name="CostActual" ColumnName="CostActual" />
+                <ScalarProperty Name="TechID" ColumnName="TechID" />
+                <ScalarProperty Name="TownName" ColumnName="TownName" />
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="Grid" ColumnName="Grid" />
+                <ScalarProperty Name="TypeOfMap" ColumnName="TypeOfMap" />
+                <ScalarProperty Name="WorkUnit" ColumnName="WorkUnit" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Map" ColumnName="Map" />
+                <ScalarProperty Name="ClosedBy" ColumnName="ClosedBy" />
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="ProjectPhase" ColumnName="ProjectPhase" />
+                <ScalarProperty Name="ProjectType1" ColumnName="ProjectType1" />
+                <ScalarProperty Name="JobPackage" ColumnName="JobPackage" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUserIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblUserIndex">
+              <MappingFragment StoreEntitySet="tblUserIndex">
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
+                <ScalarProperty Name="AccountStatusID" ColumnName="AccountStatusID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCategories">
+            <EntityTypeMapping TypeName="NagParTestModel.tblCategory">
+              <MappingFragment StoreEntitySet="tblCategory">
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCustomerIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblCustomerIndex">
+              <MappingFragment StoreEntitySet="tblCustomerIndex">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="StateProvince" ColumnName="StateProvince" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="WebSiteAddress" ColumnName="WebSiteAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPriorityIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblPriorityIndex">
+              <MappingFragment StoreEntitySet="tblPriorityIndex">
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTechIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblTechIndex">
+              <MappingFragment StoreEntitySet="tblTechIndex">
+                <ScalarProperty Name="TechID" ColumnName="TechID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="AccessLevelID" ColumnName="AccessLevelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTicketStatusIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblTicketStatusIndex">
+              <MappingFragment StoreEntitySet="tblTicketStatusIndex">
+                <ScalarProperty Name="TicketStatusID" ColumnName="TicketStatusID" />
+                <ScalarProperty Name="TicketStatus" ColumnName="TicketStatus" />
+                <ScalarProperty Name="UserAccountTypeID" ColumnName="UserAccountTypeID" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTicketTypeIndexes">
+            <EntityTypeMapping TypeName="NagParTestModel.tblTicketTypeIndex">
+              <MappingFragment StoreEntitySet="tblTicketTypeIndex">
+                <ScalarProperty Name="TicketTypeID" ColumnName="TicketTypeID" />
+                <ScalarProperty Name="TicketType" ColumnName="TicketType" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTypeOfMaps">
+            <EntityTypeMapping TypeName="NagParTestModel.tblTypeOfMap">
+              <MappingFragment StoreEntitySet="tblTypeOfMap">
+                <ScalarProperty Name="TypeOfMap" ColumnName="TypeOfMap" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
