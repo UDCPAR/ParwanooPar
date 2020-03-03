@@ -279,6 +279,7 @@
     <Content Include="Views\FileLibrary\SearchPar.cshtml" />
     <Content Include="Views\Account\SessionExpire.cshtml" />
     <Content Include="Views\Account\NewUser.cshtml" />
+    <Content Include="Views\Default\UserAllPars.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\" />

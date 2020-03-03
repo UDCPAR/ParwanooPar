@@ -26,19 +26,17 @@
                         <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
                         <td><div style="width:133px;" id="OpenPars">Work Order</div></td>
                         <td><div style="width:237px;" id="OpenPars">Options</div></td>
-
                     </tr>
 
                     @foreach (var item in Model)
                     {
                         <tr>
                             <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink(item.FileName, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
-                            <td><div style="width:150px;" id="ParFields">@(item.FileSize / 1024) KB</div></td>
+                            <td><div style="width:150px;" id="ParFields">@(item.FileSize / 1024).@(item.FileSize % 1024) KB</div></td>
                             <td><div style="width:67px;" id="ParFields"><a>@Html.ActionLink(item.TicketID, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
                             <td><div style="width:133px;" id="ParFields">@item.WorkOrder</div></td>
                             <td><div style="width:237px;" id="ParFields"><a>@Html.ActionLink("Download", "DownloadImage", "FileLibrary", new { fileid = item.FileID }, null)</a> | <a>@Html.ActionLink("Delete", "DeleteImageFile", "FileLibrary", new { fileid = item.FileID }, null)</a></div></td>
                         </tr>
-
                     }
                 </tbody>
             </table>

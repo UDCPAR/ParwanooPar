@@ -70,7 +70,9 @@
                 });
                 return false;
             }
+
         }
+
     </script>
 </head>
 <body>
@@ -78,7 +80,6 @@
         <div class="col-lg-9" style="padding-top:30px;">
             <img src="~/Images/UDCLogo.png" />
             <h5 id="session" style="display:none;"><b>Session is expire after: <span id="SpinTime"></span></b></h5>
-            
         </div>
         <div class="col-lg-3" style="padding-top:30px;">
             <div class="col-lg-12"><img style="float:right" src="~/Images/logo-pge.gif" /></div>
@@ -86,7 +87,7 @@
         </div>
     </div>
     <div class="container body-content">
-            @RenderBody()
+        @RenderBody()
         <div class="col-lg-3">
             <div class="col-lg-12" style="margin-left:-25px;background-color:lightskyblue; color:white;">
                 <h5><b>Menu</b></h5>
@@ -109,8 +110,8 @@
         <hr />
     </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

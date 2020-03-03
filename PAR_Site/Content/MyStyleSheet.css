@@ -13,10 +13,12 @@
 }
 
 #OpenPars {
+    font-weight:bold;
     background-color: lightgray;
     border: 1px solid white;
     font-size: small;
-    height: 40px;
+    padding-top:8px;
+    padding-bottom:8px;
     text-align: center;
 }
 

@@ -1,11 +1,16 @@
 ﻿@model IEnumerable<PAR_Site.Models.ViewModel>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 @using (Html.BeginForm("Index", "Default", FormMethod.Post))
 {
-
     <div class="col-lg-9">
         <div class="col-lg-12" style="background-color:lightskyblue;color:white;">
-            <h5><b>System Message</b></h5>
+            <div class="col-lg-9"><h5><b>System Message</b></h5></div>
+            <div class="col-lg-3" style="text-align:right;"><a href="~/Default/UserAllPars" style="color:white;" data-toggle="tooltip" data-placement="top" title="Created by Me"><i class="material-icons" style="font-size:20px;margin-top:5px;">comment</i><strong><span class="badge">@ViewBag.UserParCount</span></strong></a>   <a href="~/Default/UserAllPars" style="color:black" data-toggle="tooltip" data-placement="top" title="Assign To Me"><span class="glyphicon glyphicon-bell" style="font-size:20px;margin-top: 5px;"></span><strong><span class="badge">@ViewBag.TechParCount</span></strong></a></div>
         </div>
         <div style="padding-top:40px;">
             <h5><b>Welcome...</b></h5>
@@ -18,8 +23,9 @@
             <p>In order to quickly complete requests, we strongly encourage all of our clients to submit all questions/PARS using this system</p>
         </div>
         <div class="col-lg-12" style="border:1px solid black;">
-            <div class="col-lg-2" style="border-right:1px solid black;">Showing</div>
-            <div class="col-lg-3" style="border-right:1px solid black;"><b>@ViewBag.showing</b>
+            <div class="col-lg-2" style="border-right: 1px solid black;">Showing</div>
+            <div class="col-lg-3" style="border-right:1px solid black;">
+                <b>@ViewBag.showing</b>
             </div>
             <div class="col-lg-3" style="border-right:1px solid black;"><b>Filter Assign To:</b></div>
             <div class="col-lg-2" style="border-right:1px solid black;">
