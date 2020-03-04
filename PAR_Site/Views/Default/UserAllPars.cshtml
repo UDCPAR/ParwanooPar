@@ -17,7 +17,7 @@
             <h5><b>Assign To Me</b></h5>
         </div>
         <table class="table-striped" width="100%">
-            <tbody>
+            <thead>
                 <tr>
                     <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
                     <td><div style="width:237px;" id="OpenPars">Subject</div></td>
@@ -27,6 +27,8 @@
                     <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
                     <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
                 </tr>
+            </thead>
+            <tbody>
                 @foreach (var item in ViewBag.OpenTechUser)
                 {
                     <tr>
@@ -45,7 +47,7 @@
             <h5><b>Created By Me</b></h5>
         </div>
         <table class="table-striped" width="100%">
-            <tbody>
+            <thead>
                 <tr>
                     <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
                     <td><div style="width:237px;" id="OpenPars">Subject</div></td>
@@ -55,6 +57,8 @@
                     <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
                     <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
                 </tr>
+            </thead>
+            <tbody>
                 @foreach (var item in ViewBag.UserOpenPar)
                 {
                     <tr>

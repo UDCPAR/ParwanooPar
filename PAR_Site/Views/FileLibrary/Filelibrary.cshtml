@@ -1,48 +1,39 @@
 ﻿@model IEnumerable<PAR_Site.Models.File_Library>
 
-<!DOCTYPE html>
+@using (Html.BeginForm())
+{
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Filelibrary</title>
-</head>
-<body>
-    @using (Html.BeginForm())
-    {
-
-        <div class="col-lg-9">
-            <p style="margin-top:-35px;"><a href="~/Default/Index" style="text-decoration: underline;">Main Menu</a> >> File Library</p>
-            <div class="col-lg-12" style="background-color: lightskyblue; color: white;margin-top:5px;">
-                <h5><b>Uploaded Files</b></h5>
-            </div>
-            <br />
-            <br />
-            <table class="table-striped" width="100%">
-                <tbody>
-                    <tr>
-                        <td><div style="width:237px;" id="OpenPars">File Name</div></td>
-                        <td><div style="width:150px;" id="OpenPars">Size</div></td>
-                        <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
-                        <td><div style="width:133px;" id="OpenPars">Work Order</div></td>
-                        <td><div style="width:237px;" id="OpenPars">Options</div></td>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink(item.FileName, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
-                            <td><div style="width:150px;" id="ParFields">@(item.FileSize / 1024).@(item.FileSize % 1024) KB</div></td>
-                            <td><div style="width:67px;" id="ParFields"><a>@Html.ActionLink(item.TicketID, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
-                            <td><div style="width:133px;" id="ParFields">@item.WorkOrder</div></td>
-                            <td><div style="width:237px;" id="ParFields"><a>@Html.ActionLink("Download", "DownloadImage", "FileLibrary", new { fileid = item.FileID }, null)</a> | <a>@Html.ActionLink("Delete", "DeleteImageFile", "FileLibrary", new { fileid = item.FileID }, null)</a></div></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+    <div class="col-lg-9">
+        <p style="margin-top:-35px;"><a href="~/Default/Index" style="text-decoration: underline;">Main Menu</a> >> File Library</p>
+        <div class="col-lg-12" style="background-color: lightskyblue; color: white;margin-top:5px;">
+            <h5><b>Uploaded Files</b></h5>
         </div>
+        <br />
+        <br />
+        <table class="table-striped" width="100%">
+            <tbody>
+                <tr>
+                    <td><div style="width:237px;" id="OpenPars">File Name</div></td>
+                    <td><div style="width:150px;" id="OpenPars">Size</div></td>
+                    <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
+                    <td><div style="width:133px;" id="OpenPars">Work Order</div></td>
+                    <td><div style="width:237px;" id="OpenPars">Options</div></td>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink(item.FileName, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
+                        <td><div style="width:150px;" id="ParFields">@(item.FileSize / 1024).@(item.FileSize % 1024) KB</div></td>
+                        <td><div style="width:67px;" id="ParFields"><a>@Html.ActionLink(item.TicketID, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
+                        <td><div style="width:133px;" id="ParFields">@item.WorkOrder</div></td>
+                        <td><div style="width:237px;" id="ParFields"><a>@Html.ActionLink("Download", "DownloadImage", "FileLibrary", new { fileid = item.FileID }, null)</a> | <a>@Html.ActionLink("Delete", "DeleteImageFile", "FileLibrary", new { fileid = item.FileID }, null)</a></div></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
 
-    }
-</body>
-</html>
+}
+

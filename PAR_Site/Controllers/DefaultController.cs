@@ -12,7 +12,7 @@ namespace PAR_Site.Controllers
     public class DefaultController : Controller
     {
         NagParTestEntities db = new NagParTestEntities();
-        
+
         public ActionResult Index(string ddlValuestr = null)
         {
             int ddlValue;
@@ -44,25 +44,25 @@ namespace PAR_Site.Controllers
             var LessThenTen = today.AddDays(-10);
             if (TID > 0)
             {
-                var beforefiveday = db.tblTicketIndexes.Where(x => x.TicketOpen >= fiveday && x.TicketStatusID != 3 && x.TicketStatusID != 6 && x.TicketStatusID != 7 && x.TechID == TID).Count();
+                var beforefiveday = db.tblTicketIndexes.Where(x => x.TicketOpen >= fiveday && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID).Count();
                 ViewBag.beforefiveday = beforefiveday;
-                var beforeTenday = db.tblTicketIndexes.Where(x => x.TicketOpen >= LessThenTen && x.TicketOpen < fiveday && x.TicketStatusID != 3 && x.TicketStatusID != 6 && x.TicketStatusID != 7 && x.TechID == TID).Count();
+                var beforeTenday = db.tblTicketIndexes.Where(x => x.TicketOpen >= LessThenTen && x.TicketOpen < fiveday && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID).Count();
                 ViewBag.beforeTenday = beforeTenday;
-                var total = db.tblTicketIndexes.Where(x => x.TicketClose == null && x.TicketOpen < LessThenTen && x.TicketStatusID != 3 && x.TicketStatusID != 6 && x.TicketStatusID != 7 && x.TechID == TID).Count();
+                var total = db.tblTicketIndexes.Where(x => x.TicketClose == null && x.TicketOpen < LessThenTen && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID).Count();
                 ViewBag.TotalCountForTen = total;
             }
             else
             {
-                var beforefiveday = db.tblTicketIndexes.Where(x => x.TicketOpen >= fiveday && x.TicketClose == null && x.TicketStatusID != 3 && x.TicketStatusID != 6 && x.TicketStatusID != 7).Count();
+                var beforefiveday = db.tblTicketIndexes.Where(x => x.TicketOpen >= fiveday && x.TicketClose == null && x.TicketStatusID != 3 && x.TicketStatusID != 7).Count();
                 ViewBag.beforefiveday = beforefiveday;
-                var beforeTenday = db.tblTicketIndexes.Where(x => x.TicketOpen >= LessThenTen && x.TicketOpen < fiveday && x.TicketClose == null && x.TicketStatusID != 3 && x.TicketStatusID != 6 && x.TicketStatusID != 7).Count();
+                var beforeTenday = db.tblTicketIndexes.Where(x => x.TicketOpen >= LessThenTen && x.TicketOpen < fiveday && x.TicketClose == null && x.TicketStatusID != 3 && x.TicketStatusID != 7).Count();
                 ViewBag.beforeTenday = beforeTenday;
-                var total = db.tblTicketIndexes.Where(x => x.TicketClose == null && x.TicketOpen < LessThenTen && x.TicketStatusID != 3 && x.TicketStatusID != 6 && x.TicketStatusID != 7).Count();
+                var total = db.tblTicketIndexes.Where(x => x.TicketClose == null && x.TicketOpen < LessThenTen && x.TicketStatusID != 3 && x.TicketStatusID != 7).Count();
                 ViewBag.TotalCountForTen = total;
             }
             int userid = Convert.ToInt32(Session["UserID"]);
-            ViewBag.TechParCount = db.tblTicketIndexes.Where(x => (x.TicketStatusID == 1 || x.TicketStatusID == 8 || x.TicketStatusID == 6) && x.TechID == userid).Count();
-            ViewBag.UserParCount = db.tblTicketIndexes.Where(x => (x.TicketStatusID == 1 || x.TicketStatusID == 8 || x.TicketStatusID == 6) && x.UserID == userid).Count();
+            ViewBag.TechParCount = db.tblTicketIndexes.Where(x => x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == userid).Count();
+            ViewBag.UserParCount = db.tblTicketIndexes.Where(x => x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.UserID == userid).Count();
             return View();
         }
         public ActionResult OpenPars(int ddlValue)
@@ -77,7 +77,7 @@ namespace PAR_Site.Controllers
                     var Open = (from t in tblTickets
                                 join u in tblUsers
                                 on t.UserID equals u.UserID
-                                where t.TicketStatusID == 1 || t.TicketStatusID == 8
+                                where t.TicketStatusID != 3 && t.TicketStatusID != 7
                                 select new ViewModel
                                 {
                                     Map = t.Map,
@@ -96,7 +96,7 @@ namespace PAR_Site.Controllers
                     var Open = (from t in tblTickets
                                 join u in tblUsers
                                 on t.UserID equals u.UserID
-                                where t.TicketStatusID != 3 && t.TicketStatusID != 6 && t.TicketStatusID != 7 && t.TechID.Equals(ddlValue)
+                                where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.TechID.Equals(ddlValue)
                                 select new ViewModel
                                 {
                                     Map = t.Map,
@@ -141,19 +141,19 @@ namespace PAR_Site.Controllers
                             }).ToList();
                 ViewBag.OpenTechUser = Open;
                 var UserOpenPar = (from t in tblTickets
-                            join u in tblUsers
-                            on t.UserID equals u.UserID
-                            where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.UserID.Equals(userid)
-                            select new ViewModel
-                            {
-                                Map = t.Map,
-                                TicketTittle = t.TicketTitle,
-                                TicketID = t.TicketID,
-                                Status = db.tblTicketStatusIndexes.Where(x => x.TicketStatusID == t.TicketStatusID).FirstOrDefault().TicketStatus,
-                                OpenDate = t.TicketOpen.ToString("MM/dd/yyyy"),
-                                InitiatedBy = u.FirstName + " " + u.LastName,
-                                AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
-                            }).ToList();
+                                   join u in tblUsers
+                                   on t.UserID equals u.UserID
+                                   where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.UserID.Equals(userid)
+                                   select new ViewModel
+                                   {
+                                       Map = t.Map,
+                                       TicketTittle = t.TicketTitle,
+                                       TicketID = t.TicketID,
+                                       Status = db.tblTicketStatusIndexes.Where(x => x.TicketStatusID == t.TicketStatusID).FirstOrDefault().TicketStatus,
+                                       OpenDate = t.TicketOpen.ToString("MM/dd/yyyy"),
+                                       InitiatedBy = u.FirstName + " " + u.LastName,
+                                       AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
+                                   }).ToList();
                 ViewBag.UserOpenPar = UserOpenPar;
             }
             catch (Exception)

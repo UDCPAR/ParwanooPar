@@ -1,107 +1,99 @@
 ﻿
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>SearchPar</title>
-</head>
-<body>
-    <div class="col-lg-9">
-        @using (Html.BeginForm("SearchPar", "FileLibrary", FormMethod.Post))
-        {
-            <p style="margin-top:-35px;"><a href="~/Default/Index" style="text-decoration:underline">Main Menu</a> >> PAR History Search</p>
-            <div class="col-lg-12" style="background-color:lightskyblue;margin-top:5px;color:white;">
-                <h5><b>Search PAR</b></h5>
-            </div>
-            <br />
-            <br />
-            <br />
-            <div class="col-lg-6" style="float:none;">
-                <div class="form-group">
-                    <label>Search:</label>
-                    @Html.TextBox("Subject", "", new { @id = "Subject", @class = "form-control", required = "required", placeholder = "Search by Subject" })
-                </div>
-                <button type="submit" id="btnSearch" class="btn btn-primary">Search</button>
-            </div>
-
-        }
+<div class="col-lg-9">
+    @using (Html.BeginForm("SearchPar", "FileLibrary", FormMethod.Post))
+    {
+        <p style="margin-top:-35px;"><a href="~/Default/Index" style="text-decoration:underline">Main Menu</a> >> PAR History Search</p>
+        <div class="col-lg-12" style="background-color:lightskyblue;margin-top:5px;color:white;">
+            <h5><b>Search PAR</b></h5>
+        </div>
         <br />
         <br />
-        @if ((ViewBag.TotalOpen != null) || (ViewBag.TotalClosed != null))
-        {
-            <div class="col-lg-12" style="background-color:lightskyblue; color:white;">
-                <h5><b>Open PARs</b></h5>
+        <br />
+        <div class="col-lg-6" style="float:none;">
+            <div class="form-group">
+                <label>Search:</label>
+                @Html.TextBox("Subject", "", new { @id = "Subject", @class = "form-control", required = "required", placeholder = "Search by Subject" })
             </div>
-            <table class="table-striped" width="100%">
-                <tbody>
-                    <tr>
-                        <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
-                        <td><div style="width:237px;" id="OpenPars">Subject</div></td>
-                        <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
-                        <td><div style="width:97px;" id="OpenPars">Opened</div></td>
-                        <td><div style="width:100px;" id="OpenPars">Status</div></td>
-                        <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
-                        <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
-                    </tr>
-                    @if (Enumerable.Count(ViewBag.TotalOpen) > 0)
-                    {
-                        foreach (var item in ViewBag.TotalOpen)
-                        {
-                            <tr>
-                                <td><div style="width:99px;" id="ParFields">@item.Map</div></td>
-                                <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
-                                <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
-                                <td><div style="width:97px;" id="ParFields">@item.OpenDate</div></td>
-                                <td><div style="width:100px;" id="ParFields">@item.Status</div></td>
-                                <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
-                                <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr><td><h5>No Record Found.</h5></td></tr>
-                    }
-                </tbody>
-            </table>
-            <div class="col-lg-12" style="background-color:lightskyblue; color:white;">
-                <h5><b>Closed PARs</b></h5>
-            </div>
-            <table class="table-striped" id="Closedtable" width="100%">
-                <tbody>
-                    <tr>
-                        <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
-                        <td><div style="width:237px;" id="OpenPars">Subject</div></td>
-                        <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
-                        <td><div style="width:97px;" id="OpenPars">Opened</div></td>
-                        <td><div style="width:100px;" id="OpenPars">Status</div></td>
-                        <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
-                        <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
-                    </tr>
+            <button type="submit" id="btnSearch" class="btn btn-primary">Search</button>
+        </div>
 
-                    @if (Enumerable.Count(ViewBag.TotalClosed) > 0)
+    }
+    <br />
+    <br />
+    @if ((ViewBag.TotalOpen != null) || (ViewBag.TotalClosed != null))
+    {
+        <div class="col-lg-12" style="background-color:lightskyblue; color:white;">
+            <h5><b>Open PARs</b></h5>
+        </div>
+        <table class="table-striped" width="100%">
+            <tbody>
+                <tr>
+                    <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
+                    <td><div style="width:237px;" id="OpenPars">Subject</div></td>
+                    <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
+                    <td><div style="width:97px;" id="OpenPars">Opened</div></td>
+                    <td><div style="width:100px;" id="OpenPars">Status</div></td>
+                    <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
+                    <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
+                </tr>
+                @if (Enumerable.Count(ViewBag.TotalOpen) > 0)
+                {
+                    foreach (var item in ViewBag.TotalOpen)
                     {
-                        foreach (var item in ViewBag.TotalClosed)
-                        {
-                            <tr>
-                                <td><div style="width:99px;" id="ParFields">@item.Map</div></td>
-                                <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
-                                <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
-                                <td><div style="width:97px;" id="ParFields">@item.OpenDate</div></td>
-                                <td><div style="width:100px;" id="ParFields">@item.Status</div></td>
-                                <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
-                                <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
-                            </tr>
-                        }
+                        <tr>
+                            <td><div style="width:99px;" id="ParFields">@item.Map</div></td>
+                            <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
+                            <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
+                            <td><div style="width:97px;" id="ParFields">@item.OpenDate</div></td>
+                            <td><div style="width:100px;" id="ParFields">@item.Status</div></td>
+                            <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
+                            <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
+                        </tr>
                     }
-                    else
-                    {
-                        <tr><td><h5>No Record Found.</h5></td></tr>
-                    }
-                </tbody>
-            </table>
-        }
+                }
+                else
+                {
+                    <tr><td><h5>No Record Found.</h5></td></tr>
+                }
+            </tbody>
+        </table>
+        <div class="col-lg-12" style="background-color:lightskyblue; color:white;">
+            <h5><b>Closed PARs</b></h5>
+        </div>
+        <table class="table-striped" id="Closedtable" width="100%">
+            <tbody>
+                <tr>
+                    <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
+                    <td><div style="width:237px;" id="OpenPars">Subject</div></td>
+                    <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
+                    <td><div style="width:97px;" id="OpenPars">Opened</div></td>
+                    <td><div style="width:100px;" id="OpenPars">Status</div></td>
+                    <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
+                    <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
+                </tr>
 
-    </div>
-</body>
-</html>
+                @if (Enumerable.Count(ViewBag.TotalClosed) > 0)
+                {
+                    foreach (var item in ViewBag.TotalClosed)
+                    {
+                        <tr>
+                            <td><div style="width:99px;" id="ParFields">@item.Map</div></td>
+                            <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
+                            <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
+                            <td><div style="width:97px;" id="ParFields">@item.OpenDate</div></td>
+                            <td><div style="width:100px;" id="ParFields">@item.Status</div></td>
+                            <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
+                            <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td><h5>No Record Found.</h5></td></tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>
+
