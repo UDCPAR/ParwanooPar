@@ -24,24 +24,16 @@ namespace PAR_Site.Models
         public System.DateTime TicketOpen { get; set; }
         public Nullable<System.DateTime> TicketClose { get; set; }
         public int OpenedBy { get; set; }
-        public string TimeEstimate { get; set; }
-        public string TimeActual { get; set; }
-        public string CostEstimate { get; set; }
-        public string CostActual { get; set; }
         public int TechID { get; set; }
         public string TownName { get; set; }
         public string DivisionName { get; set; }
-        public string Grid { get; set; }
-        public string TypeOfMap { get; set; }
-        public string WorkUnit { get; set; }
         public string Category { get; set; }
         public string Map { get; set; }
         public Nullable<int> ClosedBy { get; set; }
         public string ProjectType { get; set; }
-        public string Location { get; set; }
+        public string Issue { get; set; }
         public string ProjectPhase { get; set; }
         public string ProjectType1 { get; set; }
-        public string JobPackage { get; set; }
         public int TicketID { get; set; }
         public List<tblTicketData> TicketData { get; internal set; }
         public string CommentAtOnce { get; internal set; }

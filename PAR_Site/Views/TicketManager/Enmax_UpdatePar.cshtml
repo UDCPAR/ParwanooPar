@@ -1,0 +1,305 @@
+﻿@model PAR_Site.Models.EditViewModel
+
+<style>
+    td {
+        padding-bottom: 30px;
+    }
+</style>
+<script>
+        $(document).ready(function () {
+            $("#btnsave").click(function () {
+                var data = $("#SubmitForm").serialize();
+                $.ajax({
+                    url: '/TicketManager/UpdateRecord',
+                    type: "POST",
+                    data:  data ,
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            });
+            $("#btnUpload").click(function () {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $("#file").get(0);
+                    var files = fileUpload.files;
+                    var fileData = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+                    $.ajax({
+                        url: '/FileLibrary/UploadFile',
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (result) {
+                            alert(result);
+                            window.location.reload();
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                } else {
+                    alert("FormData is not supported.");
+                }
+            });
+            $(".ParStatus").val(@ViewBag.selectedvalue);
+            $(".AssignTo").val(@ViewBag.selectedval);
+             $(".Issue").val("@ViewBag.IssueText");
+        });
+</script>
+
+@using (Html.BeginForm("UpdateNewRecord", "TicketManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="col-lg-9" style="margin-top:-39px;">
+        <div>
+            <a href="mailto:?Subject= PAR Requesting your Review PAR Number @ViewBag.Tckt &body=Subject: @ViewBag.Subj %0D%0D Visit: http://dev-nag/nagpar_test/ %0D%0D---(Please DO NOT reply to this email/Use the PAR system for communications regarding this PAR)---" class="btn btn-info" role="button">Send Mail</a>
+            <strong><a href="~/Default/Index" style="text-decoration:underline"><i class="fa fa-home"></i> Main Menu</a></strong> >> PAR Details
+        </div>
+        <div class="col-lg-12" style=" background-color: lightskyblue; margin-top: 5px;color: white;">
+            <h5><b>PAR Information</b></h5>
+        </div>
+        <br />
+        <br />
+        <br />
+        @if (Enumerable.Count(ViewBag.updatecomments) > 0)
+        {
+            <div class="col-lg-2" id="NewPar_Title">Par:</div>
+            <div class="col-lg-4" id="NewPar_Input">
+                @Html.DisplayFor(m => m.ParNum)
+            </div>
+            <div class="col-lg-2" id="NewPar_Title">Par Status:</div>
+            <div class="col-lg-4" id="NewPar_Input">
+                @Html.DropDownList("ParStatus", new SelectList(ViewBag.AccountId, "Value", "Text"), new { @id = "ddl_Fields", @class = "ParStatus" })
+            </div>
+
+            <div class="col-lg-2" id="NewPar_Title">Opened:</div>
+            <div class="col-lg-4" id="NewPar_Input">
+                @Html.DisplayFor(m => m.Opened)
+            </div>
+            <div class="col-lg-2" id="NewPar_Title">Closed:</div>
+            <div class="col-lg-4" id="NewPar_Input">
+                @Html.DisplayFor(m => m.ClosedDate)
+            </div>
+
+            <div class="col-lg-2" id="NewPar_Title">Initiated By:</div>
+            <div class="col-lg-4" id="NewPar_Input">
+                @Html.DisplayFor(m => m.InitiatedBy)
+            </div>
+            <div class="col-lg-2" id="NewPar_Title">Assign To:</div>
+            <div class="col-lg-4" id="NewPar_Input">
+                @Html.DropDownList("AssignTo", new SelectList(ViewBag.AssignName, "Value", "Text"), new { @id = "ddl_Fields", @class = "AssignTo" })
+            </div>
+
+            <div class="col-lg-2" id="NewPar_Title">Issue:</div>
+            <div class="col-lg-4" id="NewPar_Input">
+                @Html.DisplayFor(m => m.Issue)
+            </div>
+            <div class="col-lg-2" id="NewPar_Title">Work Order No:</div>
+            <div class="col-lg-4" id="NewPar_Input">
+                @Html.DisplayFor(m => m.WorkOrderNo)
+            </div>
+            <div class="col-lg-2" id="NewPar_Title">Subject:</div>
+            <div class="col-lg-10" id="NewPar_Input">
+                @Html.DisplayFor(m => m.Subject)
+            </div>
+            <div class="col-lg-2" id="NewPar_DescriptionTitle" style="margin-bottom: 24px;">Description:</div>
+            <div class="col-lg-10" id="NewPar_Description">
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @id = "Txtarea", @rows = "7", required = "required", @readonly = true })
+            </div>
+            <table style="width:100%;">
+                <tbody style="width:100%;">
+                    @foreach (var item in ViewBag.updatecomments)
+                    {
+                        <tr style="width:100%;">
+                            <td style="width:100%;">
+                                <div class="col-lg-12" style="background-color:lightgrey;border:1px solid black;">
+                                    <div class="col-lg-8"><b>Updated By:</b> @item.Techname</div>
+                                    <div class="col-lg-4"><b>Date/Time:</b> @item.Date</div>
+                                </div>
+                                <div class="col-lg-12" style="border:1px solid black;">
+                                    <div class="col-lg-12"> @item.UpdateComment</div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-lg-12" id="UpdateDiscription" style="background-color:lightskyblue; color:white;">
+                <h5><b>Update PAR</b></h5>
+            </div>
+            @Html.TextAreaFor(m => m.UpdateDiscription, new { @id = "UpdateDiscription", @class = "form-control", @rows = "5" })
+            <br />
+            <button class="btn btn-primary" type="submit" id="btnUpdatePar" style="float:right;">- Save All -</button>
+            <br />
+            <br />
+            if (ViewBag.selectedvalue == 3 || ViewBag.selectedvalue == 7)
+            {
+                <style>
+                    #UpdateDiscription {
+                        display: none;
+                    }
+                </style>
+                <div class="col-lg-12" style="background-color:lightgray;">
+                    <h5 style="text-align:center;"><b>-- PAR CLOSED -- Re-Open to add comments</b></h5>
+                </div>
+                <br />
+                <br />
+            }
+
+        }
+        else
+        {
+            <form action="~/TicketManager/UpdateRecord" id="submitform" method="post">
+                <fieldset id="SubmitForm">
+                    @Html.HiddenFor(model => model.ParNum)
+                    <div class="col-lg-2" id="NewPar_Title">Par:</div>
+                    <div class="col-lg-4" id="NewPar_Input">
+                        @Html.DisplayFor(m => m.ParNum)
+                    </div>
+                    <div class="col-lg-2" id="NewPar_Title">Par Status:</div>
+                    <div class="col-lg-4" id="NewPar_Input">
+                        @Html.DropDownList("ParStatus", new SelectList(ViewBag.AccountId, "Value", "Text"), new { @id = "ddl_Fields", @class = "ParStatus" })
+                    </div>
+
+                    <div class="col-lg-2" id="NewPar_Title">Opened:</div>
+                    <div class="col-lg-4" id="NewPar_Input">
+                        @Html.DisplayFor(m => m.Opened)
+                    </div>
+                    <div class="col-lg-2" id="NewPar_Title">Closed:</div>
+                    <div class="col-lg-4" id="NewPar_Input">
+                        @Html.DisplayFor(m => m.ClosedDate)
+                    </div>
+
+                    <div class="col-lg-2" id="NewPar_Title">Initiated By:</div>
+                    <div class="col-lg-4" id="NewPar_Input">
+                        @Html.DisplayFor(m => m.InitiatedBy)
+                    </div>
+                    <div class="col-lg-2" id="NewPar_Title">Assign To:</div>
+                    <div class="col-lg-4" id="NewPar_Input">
+                        @Html.DropDownList("AssignTo", new SelectList(ViewBag.AssignName, "Value", "Text"), new { @id = "ddl_Fields", @class = "AssignTo" })
+                    </div>
+
+                    <div class="col-lg-2" id="NewPar_Title">Issue:</div>
+                    <div class="col-lg-4" id="NewPar_Input">
+                        @Html.DropDownList("Issue", new SelectList(ViewBag.Issue, "Value", "Text"), new { @id = "ddl_Fields", @class = "Issue" })
+                    </div>
+                    <div class="col-lg-2" id="NewPar_Title">Work Order No:</div>
+                    <div class="col-lg-4" id="NewPar_Input">
+                        @Html.TextBoxFor(m => m.WorkOrderNo, new { @id = "Input_Fields", @class = "text-danger", required = "required" })
+                    </div>
+
+                    <div class="col-lg-2" id="NewPar_Title">Subject:</div>
+                    <div class="col-lg-10" id="NewPar_Input">
+                        @Html.TextBoxFor(m => m.Subject, new { @id = "Input_Fields", @class = "text-danger", required = "required" })
+                    </div>
+                    <div class="col-lg-2" id="NewPar_DescriptionTitle" style="margin-bottom: 24px;">Description:</div>
+                    <div class="col-lg-10" id="NewPar_Description">
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @id = "Txtarea", @rows = "7", required = "required" })
+                    </div>
+                    <div class="col-lg-12">
+                        <button class="btn btn-primary" id="btnsave" type="button">- Save -</button>
+                        <br />
+                        <br />
+                    </div>
+                </fieldset>
+            </form>
+            <table style="width:100%;">
+                <tbody style="width:100%;">
+                    @foreach (var item in ViewBag.updatecomments)
+                    {
+                        <tr style="width:100%;">
+                            <td style="width:100%;">
+                                <div class="col-lg-12" style="background-color:lightgrey;border:1px solid black;">
+                                    <div class="col-lg-8"><b>Updated By:</b> @item.Techname</div>
+                                    <div class="col-lg-4"><b>Date/Time:</b> @item.Date</div>
+                                </div>
+                                <div class="col-lg-12" style="border:1px solid black;">
+                                    <div class="col-lg-12"> @item.UpdateComment</div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-lg-12" id="UpdateDiscription" style="background-color:lightskyblue; color:white;">
+                <h5><b>Update PAR</b></h5>
+            </div>
+            @Html.TextAreaFor(m => m.UpdateDiscription, new { @id = "UpdateDiscription", @class = "form-control", @rows = "5" })
+            <br />
+            <button class="btn btn-primary" type="submit" id="btnUpdatePar" style="float:right;">- Add Note -</button>
+            <br />
+            <br />
+            if (ViewBag.selectedvalue == 3 || ViewBag.selectedvalue == 7)
+            {
+                <style>
+                    #UpdateDiscription {
+                        display: none;
+                    }
+
+                    #btnUpdatePar {
+                        display: none;
+                    }
+                </style>
+                <div class="col-lg-12" style="background-color:lightgray;">
+                    <h5 style="text-align:center;"><b>-- PAR CLOSED -- Re-Open to add comments</b></h5>
+                </div>
+                <br />
+                <br />
+            }
+        }
+
+        <div class="col-lg-12" style="background-color:lightskyblue; color:white;">
+            <h5><b>File Library</b></h5>
+        </div>
+        <div class="col-lg-12">
+            <p>
+                Use the file upload tool to add files to your file library. Uploading files to your file library ensures that any member of our staff (or yours) will have access to critical files at any time.
+            </p>
+            <p>All files that have been previously uploaded to your file library will be displayed below.</p>
+
+            <b>File:</b><input type="file" id="file" multiple />
+            <br />
+            <button class="" style="width:120px;" type="button" id="btnUpload">- Upload File -</button>
+            <br />
+            <br />
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="col-lg-12" style="background-color:lightskyblue; color:white;">
+            <h5><b>Uploaded Files</b></h5>
+        </div>
+        @if (ViewBag.totalfilescount > 0)
+        {
+            <div class="col-lg-5" style="background-color:lightgray;border:1px solid white">
+                <h5><b>File Name</b></h5>
+            </div>
+            <div class="col-lg-3" style="background-color:lightgray;border:1px solid white">
+                <h5><b>Size</b></h5>
+            </div>
+            <div class="col-lg-4" style="background-color:lightgray;border:1px solid white">
+                <h5><b>Options</b></h5>
+            </div>
+
+            foreach (var item in ViewBag.totalfiles)
+            {
+                <div class="col-lg-5">@item.FileName</div>
+                <div class="col-lg-3">@(item.FileSize / 1024).@(item.FileSize % 1024) KB</div>
+                <div class="col-lg-4"><a>@Html.ActionLink("Download", "DownloadImage", "FileLibrary", new { fileid = item.FileID }, null)</a> | <a>@Html.ActionLink("Delete", "DeleteImage", "FileLibrary", new { fileid = item.FileID }, null)</a></div>
+
+            }
+        }
+        else
+        {
+            <div class="col-lg-12"><center><b>You do not currently have any files uploaded to your file library for this PAR.</b></center></div>
+        }
+
+    </div>
+
+}
+

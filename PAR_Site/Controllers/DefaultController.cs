@@ -11,8 +11,7 @@ namespace PAR_Site.Controllers
 
     public class DefaultController : Controller
     {
-        NagParTestEntities db = new NagParTestEntities();
-
+        NagParDemoEntities db = new NagParDemoEntities();
         public ActionResult Index(string ddlValuestr = null)
         {
             int ddlValue;
@@ -26,11 +25,13 @@ namespace PAR_Site.Controllers
                 ddlValue = Convert.ToInt32(ddlValuestr);
             }
             ViewBag.ddlValue = ddlValue;
-            var Techlist = db.tblUserIndexes.Where(x => x.AccountStatusID == 2).Select(p => new SelectListItem()
+            string S_Project = Session["Selected_Project"].ToString();
+            var Techlist = db.tblUserIndexes.Where(x => x.AccountStatusID == 2 && x.Project.Contains(S_Project)).Select(p => new SelectListItem()
             {
                 Value = p.UserID.ToString(),
                 Text = p.FirstName + " " + p.LastName
             }).ToList();
+
             ViewBag.username = Techlist;
             TotalCount();
             OpenPars(ddlValue);
@@ -38,35 +39,37 @@ namespace PAR_Site.Controllers
         }
         public ActionResult TotalCount()
         {
+            string S_Project = Session["Selected_Project"].ToString();
             int TID = Convert.ToInt32(ViewBag.ddlValue);
             var today = DateTime.Now.Date;
             var fiveday = today.AddDays(-5);
             var LessThenTen = today.AddDays(-10);
             if (TID > 0)
             {
-                var beforefiveday = db.tblTicketIndexes.Where(x => x.TicketOpen >= fiveday && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID).Count();
+                var beforefiveday = db.tblTicketIndexes.Where(x => x.TicketOpen >= fiveday && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID && x.ProjectType.Contains(S_Project)).Count();
                 ViewBag.beforefiveday = beforefiveday;
-                var beforeTenday = db.tblTicketIndexes.Where(x => x.TicketOpen >= LessThenTen && x.TicketOpen < fiveday && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID).Count();
+                var beforeTenday = db.tblTicketIndexes.Where(x => x.TicketOpen >= LessThenTen && x.TicketOpen < fiveday && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID && x.ProjectType.Contains(S_Project)).Count();
                 ViewBag.beforeTenday = beforeTenday;
-                var total = db.tblTicketIndexes.Where(x => x.TicketClose == null && x.TicketOpen < LessThenTen && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID).Count();
+                var total = db.tblTicketIndexes.Where(x => x.TicketClose == null && x.TicketOpen < LessThenTen && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == TID && x.ProjectType.Contains(S_Project)).Count();
                 ViewBag.TotalCountForTen = total;
             }
             else
             {
-                var beforefiveday = db.tblTicketIndexes.Where(x => x.TicketOpen >= fiveday && x.TicketClose == null && x.TicketStatusID != 3 && x.TicketStatusID != 7).Count();
+                var beforefiveday = db.tblTicketIndexes.Where(x => x.TicketOpen >= fiveday && x.TicketClose == null && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.ProjectType.Contains(S_Project)).Count();
                 ViewBag.beforefiveday = beforefiveday;
-                var beforeTenday = db.tblTicketIndexes.Where(x => x.TicketOpen >= LessThenTen && x.TicketOpen < fiveday && x.TicketClose == null && x.TicketStatusID != 3 && x.TicketStatusID != 7).Count();
+                var beforeTenday = db.tblTicketIndexes.Where(x => x.TicketOpen >= LessThenTen && x.TicketOpen < fiveday && x.TicketClose == null && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.ProjectType.Contains(S_Project)).Count();
                 ViewBag.beforeTenday = beforeTenday;
-                var total = db.tblTicketIndexes.Where(x => x.TicketClose == null && x.TicketOpen < LessThenTen && x.TicketStatusID != 3 && x.TicketStatusID != 7).Count();
+                var total = db.tblTicketIndexes.Where(x => x.TicketClose == null && x.TicketOpen < LessThenTen && x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.ProjectType.Contains(S_Project)).Count();
                 ViewBag.TotalCountForTen = total;
             }
             int userid = Convert.ToInt32(Session["UserID"]);
-            ViewBag.TechParCount = db.tblTicketIndexes.Where(x => x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == userid).Count();
-            ViewBag.UserParCount = db.tblTicketIndexes.Where(x => x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.UserID == userid).Count();
+            ViewBag.TechParCount = db.tblTicketIndexes.Where(x => x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.TechID == userid && x.ProjectType.Contains(S_Project)).Count();
+            ViewBag.UserParCount = db.tblTicketIndexes.Where(x => x.TicketStatusID != 3 && x.TicketStatusID != 7 && x.UserID == userid && x.ProjectType.Contains(S_Project)).Count();
             return View();
         }
         public ActionResult OpenPars(int ddlValue)
         {
+            string S_Project = Session["Selected_Project"].ToString();
             ViewModel viewModel = new ViewModel();
             List<tblUserIndex> tblUsers = db.tblUserIndexes.ToList();
             List<tblTicketIndex> tblTickets = db.tblTicketIndexes.ToList();
@@ -77,7 +80,7 @@ namespace PAR_Site.Controllers
                     var Open = (from t in tblTickets
                                 join u in tblUsers
                                 on t.UserID equals u.UserID
-                                where t.TicketStatusID != 3 && t.TicketStatusID != 7
+                                where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.ProjectType.Contains(S_Project)
                                 select new ViewModel
                                 {
                                     Map = t.Map,
@@ -96,7 +99,7 @@ namespace PAR_Site.Controllers
                     var Open = (from t in tblTickets
                                 join u in tblUsers
                                 on t.UserID equals u.UserID
-                                where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.TechID.Equals(ddlValue)
+                                where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.TechID.Equals(ddlValue) && t.ProjectType.Contains(S_Project)
                                 select new ViewModel
                                 {
                                     Map = t.Map,
@@ -119,6 +122,7 @@ namespace PAR_Site.Controllers
         }
         public ActionResult UserAllPars()
         {
+            string S_Project = Session["Selected_Project"].ToString();
             int userid = Convert.ToInt32(Session["UserID"]);
             ViewModel viewModel = new ViewModel();
             List<tblUserIndex> tblUsers = db.tblUserIndexes.ToList();
@@ -128,7 +132,7 @@ namespace PAR_Site.Controllers
                 var Open = (from t in tblTickets
                             join u in tblUsers
                             on t.UserID equals u.UserID
-                            where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.TechID.Equals(userid)
+                            where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.TechID.Equals(userid) && t.ProjectType.Contains(S_Project)
                             select new ViewModel
                             {
                                 Map = t.Map,
@@ -143,7 +147,7 @@ namespace PAR_Site.Controllers
                 var UserOpenPar = (from t in tblTickets
                                    join u in tblUsers
                                    on t.UserID equals u.UserID
-                                   where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.UserID.Equals(userid)
+                                   where t.TicketStatusID != 3 && t.TicketStatusID != 7 && t.UserID.Equals(userid) && t.ProjectType.Contains(S_Project)
                                    select new ViewModel
                                    {
                                        Map = t.Map,

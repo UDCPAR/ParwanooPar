@@ -15,7 +15,7 @@ namespace PAR_Site.Controllers
     public class FileLibraryController : Controller
     {
         // GET: FileLibrary
-        NagParTestEntities db = new NagParTestEntities();
+        NagParDemoEntities db = new NagParDemoEntities();
         public ActionResult Filelibrary()
         {
             var Allfiles = (from t in db.tblFileLibraries
@@ -124,7 +124,7 @@ namespace PAR_Site.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SearchPar(string Subject)
+        public ActionResult SearchPar(string Answer,string Subject)
         {
             try
             {
@@ -132,25 +132,46 @@ namespace PAR_Site.Controllers
                 {
                     List<tblUserIndex> tblUsers = db.tblUserIndexes.ToList();
                     List<tblTicketIndex> tblTickets = db.tblTicketIndexes.ToList();
-                    var TotalOpen = (from t in tblTickets
-                                     join u in tblUsers
-                                     on t.UserID equals u.UserID
-                                     where (t.TicketStatusID != 3 && t.TicketStatusID != 7) && (t.TicketTitle.Contains(Subject) || t.TicketDescription.Contains(Subject))
-                                     select new ViewModel
-                                     {
-                                         Map = t.Map,
-                                         TicketTittle = t.TicketTitle,
-                                         TicketID = t.TicketID,
-                                         Status = db.tblTicketStatusIndexes.Where(x => x.TicketStatusID == t.TicketStatusID).FirstOrDefault().TicketStatus,
-                                         OpenDate = t.TicketOpen.ToString("MM/dd/yyyy"),
-                                         InitiatedBy = u.FirstName + " " + u.LastName,
-                                         AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
-                                     }).ToList();
-                    ViewBag.TotalOpen = TotalOpen;
+                    if (Answer =="Subject" || Answer== "Description")
+                    {
+                        var TotalOpen = (from t in tblTickets
+                                         join u in tblUsers
+                                         on t.UserID equals u.UserID
+                                         where (t.TicketStatusID != 3 && t.TicketStatusID != 7) && (t.TicketTitle.Contains(Subject) || t.TicketDescription.Contains(Subject))
+                                         select new ViewModel
+                                         {
+                                             Map = t.Map,
+                                             TicketTittle = t.TicketTitle,
+                                             TicketID = t.TicketID,
+                                             Status = db.tblTicketStatusIndexes.Where(x => x.TicketStatusID == t.TicketStatusID).FirstOrDefault().TicketStatus,
+                                             OpenDate = t.TicketOpen.ToString("MM/dd/yyyy"),
+                                             InitiatedBy = u.FirstName + " " + u.LastName,
+                                             AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
+                                         }).ToList();
+                        ViewBag.TotalOpen = TotalOpen;
+                    }
+                    else
+                    {
+                        var TotalOpen = (from t in tblTickets
+                                         join u in tblUsers
+                                         on t.UserID equals u.UserID
+                                         where (t.TicketStatusID != 3 && t.TicketStatusID != 7) && (t.TicketID==Convert.ToInt32(Subject))
+                                         select new ViewModel
+                                         {
+                                             Map = t.Map,
+                                             TicketTittle = t.TicketTitle,
+                                             TicketID = t.TicketID,
+                                             Status = db.tblTicketStatusIndexes.Where(x => x.TicketStatusID == t.TicketStatusID).FirstOrDefault().TicketStatus,
+                                             OpenDate = t.TicketOpen.ToString("MM/dd/yyyy"),
+                                             InitiatedBy = u.FirstName + " " + u.LastName,
+                                             AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
+                                         }).ToList();
+                        ViewBag.TotalOpen = TotalOpen;
+                    }
                     var TotalClosed = (from t in tblTickets
                                        join u in tblUsers
                                        on t.UserID equals u.UserID
-                                       where (t.TicketStatusID == 3 || t.TicketStatusID == 7) && (t.TicketTitle.Contains(Subject) || t.TicketDescription.Contains(Subject))
+                                       where (t.TicketStatusID == 3 || t.TicketStatusID == 7) && (t.TicketTitle.Contains(Subject) || t.TicketDescription.Contains(Subject) )
                                        select new ViewModel
                                        {
                                            Map = t.Map,
@@ -193,7 +214,7 @@ namespace PAR_Site.Controllers
                             ClosedDate = d.TicketClose.ToString(),
                             Initiatedby = db.tblUserIndexes.Where(x => x.UserID == d.UserID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault(),
                             AssignTo = db.tblUserIndexes.Where(x => x.UserID == d.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault(),
-                            Divison = d.DivisionName,
+                            Divison = d.Issue,
                             Issue = d.Category,
                             WorkOrder = d.Map,
                             Par_Subject = d.TicketTitle,

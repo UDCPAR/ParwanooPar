@@ -9,6 +9,7 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/MyStyleSheet.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script type="text/javascript">
@@ -31,7 +32,7 @@
 
         myVar = setInterval(Coundown, 1000)
         function Coundown() {
-            var _UTCTime = UTCTime;
+             var _UTCTime = UTCTime;
             countDownDate = "@Session["CountDownTime"]";
             if (countDownDate != "") {
                 sessionStorage.setItem("CountDownTime", countDownDate);
@@ -65,12 +66,11 @@
                         window.location.href = "@Url.Action("Login","Account")";
                     },
                     error: function (xhr, status, error) {
-                        alert("Whooaaa! Something went wrong..")
+                        alert("Whooaaa! Something went wrong...Please Login Again.")
                     },
                 });
                 return false;
             }
-
         }
 
     </script>
@@ -79,10 +79,11 @@
     <div class="container">
         <div class="col-lg-9" style="padding-top:30px;">
             <img src="~/Images/UDCLogo.png" />
+            <center><h3><strong style="text-decoration:underline">@Session["Selected_Project"]</strong></h3></center>
             <h5 id="session" style="display:none;"><b>Session is expire after: <span id="SpinTime"></span></b></h5>
         </div>
         <div class="col-lg-3" style="padding-top:30px;">
-            <div class="col-lg-12"><img style="float:right" src="~/Images/logo-pge.gif" /></div>
+            <div class="col-lg-12"><img style="float:right" src="~/Images/@Session["Selected_Project"]_logo-pge.gif" /></div>
             <div class="col-lg-12"><p class="btnlogout"><b>Welcome</b> @Html.Label((string)Session["UserName"])<a href="@Url.Action("Logout", "Account")" id="logout"> Logout</a></p></div>
         </div>
     </div>

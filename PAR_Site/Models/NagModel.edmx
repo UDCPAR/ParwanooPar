@@ -4,9 +4,9 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="NagParTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="NagParDemoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NagParTest.dbo.tblCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NagParDemo.dbo.tblCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblCategory">
           <Key>
             <PropertyRef Name="Category" />
@@ -14,7 +14,7 @@ warning 6002: The table/view 'NagParTest.dbo.tblCategory' does not have a primar
           <Property Name="Category" Type="char" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NagParTest.dbo.tblCustomerIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NagParDemo.dbo.tblCustomerIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblCustomerIndex">
           <Key>
             <PropertyRef Name="CustomerID" />
@@ -38,15 +38,27 @@ warning 6002: The table/view 'NagParTest.dbo.tblCustomerIndex' does not have a p
           <Property Name="Fax" Type="varchar" MaxLength="50" />
           <Property Name="WebSiteAddress" Type="varchar" MaxLength="50" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParDemo.dbo.tblDivisionIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblDivisionIndex">
           <Key>
             <PropertyRef Name="DivisionID" />
           </Key>
           <Property Name="DivisionName" Type="char" MaxLength="50" />
-          <Property Name="DivisionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DivisionID" Type="int" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="250" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParDemo.dbo.tblFileLibrary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblFileLibrary">
           <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="OFileName" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FileSize" />
+            <PropertyRef Name="FileExt" />
+            <PropertyRef Name="UploadDateTime" />
             <PropertyRef Name="FileID" />
           </Key>
           <Property Name="CustomerID" Type="int" Nullable="false" />
@@ -61,7 +73,7 @@ warning 6002: The table/view 'NagParTest.dbo.tblCustomerIndex' does not have a p
           <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NagParTest.dbo.tblPriorityIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NagParDemo.dbo.tblPriorityIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblPriorityIndex">
           <Key>
             <PropertyRef Name="Priority" />
@@ -69,22 +81,33 @@ warning 6002: The table/view 'NagParTest.dbo.tblPriorityIndex' does not have a p
           <Property Name="Priority" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="SortOrder" Type="int" />
         </EntityType>
+        <EntityType Name="tblProjectName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Project_Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParDemo.dbo.tblProjectPhase' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblProjectPhase">
           <Key>
             <PropertyRef Name="SortOrder" />
           </Key>
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
-          <Property Name="SortOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParDemo.dbo.tblSubjectIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblSubjectIndex">
           <Key>
             <PropertyRef Name="SortOrder" />
           </Key>
-          <Property Name="Subject" Type="char" MaxLength="255" />
-          <Property Name="SortOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="50" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NagParTest.dbo.tblTechIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NagParDemo.dbo.tblTechIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblTechIndex">
           <Key>
             <PropertyRef Name="TechID" />
@@ -101,8 +124,18 @@ warning 6002: The table/view 'NagParTest.dbo.tblTechIndex' does not have a prima
           <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="AccessLevelID" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NagParDemo.dbo.tblTicketData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblTicketData">
           <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="TicketID" />
+            <PropertyRef Name="TicketNumber" />
+            <PropertyRef Name="UpdateDateTime" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="TechID" />
+            <PropertyRef Name="UpdateDescription" />
             <PropertyRef Name="ResponseID" />
           </Key>
           <Property Name="CustomerID" Type="int" Nullable="false" />
@@ -130,28 +163,20 @@ warning 6002: The table/view 'NagParTest.dbo.tblTechIndex' does not have a prima
           <Property Name="TicketOpen" Type="datetime" Nullable="false" />
           <Property Name="TicketClose" Type="datetime" />
           <Property Name="OpenedBy" Type="int" Nullable="false" />
-          <Property Name="TimeEstimate" Type="varchar" MaxLength="50" />
-          <Property Name="TimeActual" Type="varchar" MaxLength="50" />
-          <Property Name="CostEstimate" Type="varchar" MaxLength="50" />
-          <Property Name="CostActual" Type="varchar" MaxLength="50" />
           <Property Name="TechID" Type="int" Nullable="false" />
           <Property Name="TownName" Type="char" MaxLength="50" />
           <Property Name="DivisionName" Type="char" MaxLength="50" />
-          <Property Name="Grid" Type="char" MaxLength="10" />
-          <Property Name="TypeOfMap" Type="varchar" MaxLength="255" />
-          <Property Name="WorkUnit" Type="char" MaxLength="10" />
           <Property Name="Category" Type="varchar" MaxLength="255" />
           <Property Name="Map" Type="varchar" MaxLength="50" />
           <Property Name="ClosedBy" Type="int" />
           <Property Name="ProjectType" Type="varchar" MaxLength="20" />
-          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+          <Property Name="Issue" Type="nvarchar" MaxLength="50" />
           <Property Name="ProjectPhase" Type="nvarchar" MaxLength="50" />
           <Property Name="ProjectType1" Type="nvarchar" MaxLength="50" />
-          <Property Name="JobPackage" Type="nvarchar" MaxLength="50" />
           <Property Name="TicketID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NagParTest.dbo.tblTicketStatusIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NagParDemo.dbo.tblTicketStatusIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblTicketStatusIndex">
           <Key>
             <PropertyRef Name="TicketStatusID" />
@@ -163,7 +188,7 @@ warning 6002: The table/view 'NagParTest.dbo.tblTicketStatusIndex' does not have
           <Property Name="StatusOrder" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NagParTest.dbo.tblTicketTypeIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NagParDemo.dbo.tblTicketTypeIndex' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblTicketTypeIndex">
           <Key>
             <PropertyRef Name="TicketTypeID" />
@@ -174,7 +199,7 @@ warning 6002: The table/view 'NagParTest.dbo.tblTicketTypeIndex' does not have a
           <Property Name="SortOrder" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NagParDemo.dbo.tblTypeOfMap' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblTypeOfMap">
           <Key>
             <PropertyRef Name="TypeOfMap" />
@@ -194,15 +219,12 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
           <Property Name="EmailAddress" Type="varchar" MaxLength="80" Nullable="false" />
           <Property Name="AccountTypeID" Type="int" Nullable="false" />
           <Property Name="AccountStatusID" Type="int" Nullable="false" />
-          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserType" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Project" Type="nvarchar" MaxLength="250" />
         </EntityType>
-        <EntityContainer Name="NagParTestModelStoreContainer">
-          <EntitySet Name="tblDivisionIndex" EntityType="Self.tblDivisionIndex" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblFileLibrary" EntityType="Self.tblFileLibrary" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblProjectPhase" EntityType="Self.tblProjectPhase" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblSubjectIndex" EntityType="Self.tblSubjectIndex" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblTicketData" EntityType="Self.tblTicketData" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="NagParDemoModelStoreContainer">
+          <EntitySet Name="tblProjectName" EntityType="Self.tblProjectName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTicketIndex" EntityType="Self.tblTicketIndex" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUserIndex" EntityType="Self.tblUserIndex" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCategory" EntityType="Self.tblCategory" store:Type="Tables" store:Schema="dbo">
@@ -225,11 +247,44 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
     [tblCustomerIndex].[WebSiteAddress] AS [WebSiteAddress]
     FROM [dbo].[tblCustomerIndex] AS [tblCustomerIndex]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="tblDivisionIndex" EntityType="Self.tblDivisionIndex" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblDivisionIndex].[DivisionName] AS [DivisionName], 
+    [tblDivisionIndex].[DivisionID] AS [DivisionID], 
+    [tblDivisionIndex].[ProjectName] AS [ProjectName]
+    FROM [dbo].[tblDivisionIndex] AS [tblDivisionIndex]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblFileLibrary" EntityType="Self.tblFileLibrary" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblFileLibrary].[CustomerID] AS [CustomerID], 
+    [tblFileLibrary].[UserID] AS [UserID], 
+    [tblFileLibrary].[OFileName] AS [OFileName], 
+    [tblFileLibrary].[FileName] AS [FileName], 
+    [tblFileLibrary].[FileSize] AS [FileSize], 
+    [tblFileLibrary].[FileExt] AS [FileExt], 
+    [tblFileLibrary].[UploadDateTime] AS [UploadDateTime], 
+    [tblFileLibrary].[TicketID] AS [TicketID], 
+    [tblFileLibrary].[ProjectType] AS [ProjectType], 
+    [tblFileLibrary].[FileID] AS [FileID]
+    FROM [dbo].[tblFileLibrary] AS [tblFileLibrary]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="tblPriorityIndex" EntityType="Self.tblPriorityIndex" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [tblPriorityIndex].[Priority] AS [Priority], 
     [tblPriorityIndex].[SortOrder] AS [SortOrder]
     FROM [dbo].[tblPriorityIndex] AS [tblPriorityIndex]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblProjectPhase" EntityType="Self.tblProjectPhase" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblProjectPhase].[Description] AS [Description], 
+    [tblProjectPhase].[SortOrder] AS [SortOrder]
+    FROM [dbo].[tblProjectPhase] AS [tblProjectPhase]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblSubjectIndex" EntityType="Self.tblSubjectIndex" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblSubjectIndex].[Subject] AS [Subject], 
+    [tblSubjectIndex].[SortOrder] AS [SortOrder]
+    FROM [dbo].[tblSubjectIndex] AS [tblSubjectIndex]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="tblTechIndex" EntityType="Self.tblTechIndex" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -240,6 +295,20 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
     [tblTechIndex].[Password] AS [Password], 
     [tblTechIndex].[AccessLevelID] AS [AccessLevelID]
     FROM [dbo].[tblTechIndex] AS [tblTechIndex]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblTicketData" EntityType="Self.tblTicketData" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblTicketData].[CustomerID] AS [CustomerID], 
+    [tblTicketData].[TicketID] AS [TicketID], 
+    [tblTicketData].[TicketNumber] AS [TicketNumber], 
+    [tblTicketData].[UpdateDateTime] AS [UpdateDateTime], 
+    [tblTicketData].[UpdatedBy] AS [UpdatedBy], 
+    [tblTicketData].[UserID] AS [UserID], 
+    [tblTicketData].[TechID] AS [TechID], 
+    [tblTicketData].[UpdateDescription] AS [UpdateDescription], 
+    [tblTicketData].[ProjectType] AS [ProjectType], 
+    [tblTicketData].[ResponseID] AS [ResponseID]
+    FROM [dbo].[tblTicketData] AS [tblTicketData]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="tblTicketStatusIndex" EntityType="Self.tblTicketStatusIndex" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -262,60 +331,17 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
     FROM [dbo].[tblTypeOfMap] AS [tblTypeOfMap]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="NagParTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="tblDivisionIndex">
+      <Schema Namespace="NagParDemoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblProjectName">
           <Key>
-            <PropertyRef Name="DivisionID" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
-          <Property Name="DivisionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <EntityType Name="tblFileLibrary">
-          <Key>
-            <PropertyRef Name="FileID" />
-          </Key>
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="OFileName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FileName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FileSize" Type="Int32" Nullable="false" />
-          <Property Name="FileExt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UploadDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TicketID" Type="Int32" />
-          <Property Name="ProjectType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <EntityType Name="tblProjectPhase">
-          <Key>
-            <PropertyRef Name="SortOrder" />
-          </Key>
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SortOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <EntityType Name="tblSubjectIndex">
-          <Key>
-            <PropertyRef Name="SortOrder" />
-          </Key>
-          <Property Name="Subject" Type="String" MaxLength="255" FixedLength="true" Unicode="false" />
-          <Property Name="SortOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <EntityType Name="tblTicketData">
-          <Key>
-            <PropertyRef Name="ResponseID" />
-          </Key>
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="TicketID" Type="Int32" Nullable="false" />
-          <Property Name="TicketNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UpdateDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="TechID" Type="Int32" Nullable="false" />
-          <Property Name="UpdateDescription" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ProjectType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Project_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tblTicketIndex">
           <Key>
@@ -331,24 +357,16 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
           <Property Name="TicketOpen" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TicketClose" Type="DateTime" Precision="3" />
           <Property Name="OpenedBy" Type="Int32" Nullable="false" />
-          <Property Name="TimeEstimate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TimeActual" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CostEstimate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CostActual" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TechID" Type="Int32" Nullable="false" />
           <Property Name="TownName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
           <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
-          <Property Name="Grid" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="TypeOfMap" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="WorkUnit" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Map" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ClosedBy" Type="Int32" />
           <Property Name="ProjectType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Issue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProjectPhase" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProjectType1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="JobPackage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TicketID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="tblUserIndex">
@@ -364,8 +382,9 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
           <Property Name="EmailAddress" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AccountTypeID" Type="Int32" Nullable="false" />
           <Property Name="AccountStatusID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Project" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tblCategory">
           <Key>
@@ -396,12 +415,56 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
           <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="WebSiteAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="tblDivisionIndex">
+          <Key>
+            <PropertyRef Name="DivisionID" />
+          </Key>
+          <Property Name="DivisionName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="DivisionID" Type="Int32" Nullable="false" />
+          <Property Name="ProjectName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblFileLibrary">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="OFileName" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FileSize" />
+            <PropertyRef Name="FileExt" />
+            <PropertyRef Name="UploadDateTime" />
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="OFileName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FileSize" Type="Int32" Nullable="false" />
+          <Property Name="FileExt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UploadDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TicketID" Type="Int32" />
+          <Property Name="ProjectType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
         <EntityType Name="tblPriorityIndex">
           <Key>
             <PropertyRef Name="Priority" />
           </Key>
           <Property Name="Priority" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="SortOrder" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblProjectPhase">
+          <Key>
+            <PropertyRef Name="SortOrder" />
+          </Key>
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSubjectIndex">
+          <Key>
+            <PropertyRef Name="SortOrder" />
+          </Key>
+          <Property Name="Subject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="tblTechIndex">
           <Key>
@@ -418,6 +481,29 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
           <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AccessLevelID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTicketData">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="TicketID" />
+            <PropertyRef Name="TicketNumber" />
+            <PropertyRef Name="UpdateDateTime" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="TechID" />
+            <PropertyRef Name="UpdateDescription" />
+            <PropertyRef Name="ResponseID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="TicketID" Type="Int32" Nullable="false" />
+          <Property Name="TicketNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UpdateDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="TechID" Type="Int32" Nullable="false" />
+          <Property Name="UpdateDescription" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProjectType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="tblTicketStatusIndex">
           <Key>
@@ -444,18 +530,19 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
           </Key>
           <Property Name="TypeOfMap" Type="String" MaxLength="30" FixedLength="true" Unicode="false" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="NagParTestEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tblDivisionIndexes" EntityType="Self.tblDivisionIndex" />
-          <EntitySet Name="tblFileLibraries" EntityType="Self.tblFileLibrary" />
-          <EntitySet Name="tblProjectPhases" EntityType="Self.tblProjectPhase" />
-          <EntitySet Name="tblSubjectIndexes" EntityType="Self.tblSubjectIndex" />
-          <EntitySet Name="tblTicketDatas" EntityType="Self.tblTicketData" />
+        <EntityContainer Name="NagParDemoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblProjectNames" EntityType="Self.tblProjectName" />
           <EntitySet Name="tblTicketIndexes" EntityType="Self.tblTicketIndex" />
           <EntitySet Name="tblUserIndexes" EntityType="Self.tblUserIndex" />
           <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
           <EntitySet Name="tblCustomerIndexes" EntityType="Self.tblCustomerIndex" />
+          <EntitySet Name="tblDivisionIndexes" EntityType="Self.tblDivisionIndex" />
+          <EntitySet Name="tblFileLibraries" EntityType="Self.tblFileLibrary" />
           <EntitySet Name="tblPriorityIndexes" EntityType="Self.tblPriorityIndex" />
+          <EntitySet Name="tblProjectPhases" EntityType="Self.tblProjectPhase" />
+          <EntitySet Name="tblSubjectIndexes" EntityType="Self.tblSubjectIndex" />
           <EntitySet Name="tblTechIndexes" EntityType="Self.tblTechIndex" />
+          <EntitySet Name="tblTicketDatas" EntityType="Self.tblTicketData" />
           <EntitySet Name="tblTicketStatusIndexes" EntityType="Self.tblTicketStatusIndex" />
           <EntitySet Name="tblTicketTypeIndexes" EntityType="Self.tblTicketTypeIndex" />
           <EntitySet Name="tblTypeOfMaps" EntityType="Self.tblTypeOfMap" />
@@ -465,65 +552,17 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="NagParTestModelStoreContainer" CdmEntityContainer="NagParTestEntities">
-          <EntitySetMapping Name="tblDivisionIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblDivisionIndex">
-              <MappingFragment StoreEntitySet="tblDivisionIndex">
-                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
-                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblFileLibraries">
-            <EntityTypeMapping TypeName="NagParTestModel.tblFileLibrary">
-              <MappingFragment StoreEntitySet="tblFileLibrary">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="OFileName" ColumnName="OFileName" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
-                <ScalarProperty Name="FileExt" ColumnName="FileExt" />
-                <ScalarProperty Name="UploadDateTime" ColumnName="UploadDateTime" />
-                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
-                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
-                <ScalarProperty Name="FileID" ColumnName="FileID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblProjectPhases">
-            <EntityTypeMapping TypeName="NagParTestModel.tblProjectPhase">
-              <MappingFragment StoreEntitySet="tblProjectPhase">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblSubjectIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblSubjectIndex">
-              <MappingFragment StoreEntitySet="tblSubjectIndex">
-                <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblTicketDatas">
-            <EntityTypeMapping TypeName="NagParTestModel.tblTicketData">
-              <MappingFragment StoreEntitySet="tblTicketData">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
-                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
-                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="TechID" ColumnName="TechID" />
-                <ScalarProperty Name="UpdateDescription" ColumnName="UpdateDescription" />
-                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
-                <ScalarProperty Name="ResponseID" ColumnName="ResponseID" />
+        <EntityContainerMapping StorageEntityContainer="NagParDemoModelStoreContainer" CdmEntityContainer="NagParDemoEntities">
+          <EntitySetMapping Name="tblProjectNames">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblProjectName">
+              <MappingFragment StoreEntitySet="tblProjectName">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Project_Name" ColumnName="Project_Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblTicketIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblTicketIndex">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblTicketIndex">
               <MappingFragment StoreEntitySet="tblTicketIndex">
                 <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
                 <ScalarProperty Name="TicketTypeID" ColumnName="TicketTypeID" />
@@ -535,32 +574,23 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
                 <ScalarProperty Name="TicketOpen" ColumnName="TicketOpen" />
                 <ScalarProperty Name="TicketClose" ColumnName="TicketClose" />
                 <ScalarProperty Name="OpenedBy" ColumnName="OpenedBy" />
-                <ScalarProperty Name="TimeEstimate" ColumnName="TimeEstimate" />
-                <ScalarProperty Name="TimeActual" ColumnName="TimeActual" />
-                <ScalarProperty Name="CostEstimate" ColumnName="CostEstimate" />
-                <ScalarProperty Name="CostActual" ColumnName="CostActual" />
                 <ScalarProperty Name="TechID" ColumnName="TechID" />
                 <ScalarProperty Name="TownName" ColumnName="TownName" />
                 <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
-                <ScalarProperty Name="Grid" ColumnName="Grid" />
-                <ScalarProperty Name="TypeOfMap" ColumnName="TypeOfMap" />
-                <ScalarProperty Name="WorkUnit" ColumnName="WorkUnit" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="Map" ColumnName="Map" />
                 <ScalarProperty Name="ClosedBy" ColumnName="ClosedBy" />
                 <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Issue" ColumnName="Issue" />
                 <ScalarProperty Name="ProjectPhase" ColumnName="ProjectPhase" />
                 <ScalarProperty Name="ProjectType1" ColumnName="ProjectType1" />
-                <ScalarProperty Name="JobPackage" ColumnName="JobPackage" />
                 <ScalarProperty Name="TicketID" ColumnName="TicketID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblUserIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblUserIndex">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblUserIndex">
               <MappingFragment StoreEntitySet="tblUserIndex">
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -570,19 +600,21 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
                 <ScalarProperty Name="AccountStatusID" ColumnName="AccountStatusID" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblCategories">
-            <EntityTypeMapping TypeName="NagParTestModel.tblCategory">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblCategory">
               <MappingFragment StoreEntitySet="tblCategory">
                 <ScalarProperty Name="Category" ColumnName="Category" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblCustomerIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblCustomerIndex">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblCustomerIndex">
               <MappingFragment StoreEntitySet="tblCustomerIndex">
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
@@ -598,16 +630,57 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblDivisionIndexes">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblDivisionIndex">
+              <MappingFragment StoreEntitySet="tblDivisionIndex">
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFileLibraries">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblFileLibrary">
+              <MappingFragment StoreEntitySet="tblFileLibrary">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OFileName" ColumnName="OFileName" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileExt" ColumnName="FileExt" />
+                <ScalarProperty Name="UploadDateTime" ColumnName="UploadDateTime" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblPriorityIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblPriorityIndex">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblPriorityIndex">
               <MappingFragment StoreEntitySet="tblPriorityIndex">
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblProjectPhases">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblProjectPhase">
+              <MappingFragment StoreEntitySet="tblProjectPhase">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSubjectIndexes">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblSubjectIndex">
+              <MappingFragment StoreEntitySet="tblSubjectIndex">
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblTechIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblTechIndex">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblTechIndex">
               <MappingFragment StoreEntitySet="tblTechIndex">
                 <ScalarProperty Name="TechID" ColumnName="TechID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -618,8 +691,24 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblTicketDatas">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblTicketData">
+              <MappingFragment StoreEntitySet="tblTicketData">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TechID" ColumnName="TechID" />
+                <ScalarProperty Name="UpdateDescription" ColumnName="UpdateDescription" />
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="ResponseID" ColumnName="ResponseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblTicketStatusIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblTicketStatusIndex">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblTicketStatusIndex">
               <MappingFragment StoreEntitySet="tblTicketStatusIndex">
                 <ScalarProperty Name="TicketStatusID" ColumnName="TicketStatusID" />
                 <ScalarProperty Name="TicketStatus" ColumnName="TicketStatus" />
@@ -629,7 +718,7 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblTicketTypeIndexes">
-            <EntityTypeMapping TypeName="NagParTestModel.tblTicketTypeIndex">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblTicketTypeIndex">
               <MappingFragment StoreEntitySet="tblTicketTypeIndex">
                 <ScalarProperty Name="TicketTypeID" ColumnName="TicketTypeID" />
                 <ScalarProperty Name="TicketType" ColumnName="TicketType" />
@@ -638,7 +727,7 @@ warning 6002: The table/view 'NagParTest.dbo.tblTypeOfMap' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblTypeOfMaps">
-            <EntityTypeMapping TypeName="NagParTestModel.tblTypeOfMap">
+            <EntityTypeMapping TypeName="NagParDemoModel.tblTypeOfMap">
               <MappingFragment StoreEntitySet="tblTypeOfMap">
                 <ScalarProperty Name="TypeOfMap" ColumnName="TypeOfMap" />
               </MappingFragment>

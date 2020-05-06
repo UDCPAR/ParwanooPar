@@ -1,0 +1,67 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SelectProject</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    @using (Html.BeginForm("SelectProject", "Account", FormMethod.Post))
+    {
+        if (ViewBag.msg != null)
+        {
+            <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.msg");
+                };
+            </script>
+        }
+        <div class="container">
+            <div style="padding-top:30px;">
+                <img src="~/Images/UDCLogo.png" />
+            </div>
+
+            <div class="col-lg-12">
+                <br />
+                <br />
+                @*@Html.DropDownList("Project", new SelectList(ViewBag.Project, "Value", "Text"), "- Select Project -", new { @class = "form-control", @id = "Project", required = "required" })
+        <br />*@
+                @*<div class="col-lg-12">
+            <label><input type="radio" />Enmax</label>
+            <label><input type="radio" />PGE Par</label>
+            <label><input type="radio" />Northwest Natural Par</label>
+            <label><input type="radio" />PGE Conflation Par</label>
+            <label><input type="radio" />Data Improvement Par</label>
+            <label><input type="radio" />PGE Feedback</label>
+            <label><input type="radio" />SMECO Conflation Par</label>
+        </div>*@
+
+                <br />
+
+                <h4><strong>Select Your Project:-</strong></h4>
+                <br />
+                <button type="submit" id="btnProject" name="btnProject" value="Enmax" class="btn btn-primary">Enmax</button>
+                <button type="submit" id="btnProject" name="btnProject" value="PGE Par" class="btn btn-success">PGE Par</button>
+                <button type="submit" id="btnProject" name="btnProject" value="Northwest Natural Par" class="btn btn-info">Northwest Natural Par</button>
+                <button type="submit" id="btnProject" name="btnProject" value="PGE Conflation Par" class="btn btn-warning">PGE Conflation Par</button>
+                <button type="submit" id="btnProject" name="btnProject" value="PGE Feedback" class="btn btn-danger">PGE Feedback</button>
+                <br />
+                <br />
+            </div>
+            
+            <div class="col-lg-12">
+                <button type="submit" id="btnProject" name="btnProject" value="Data Improvement Par" class="btn btn-primary">Data Improvement Par</button>
+                <button type="submit" id="btnProject" name="btnProject" value="SMECO Conflation Par" class="btn btn-success">SMECO Conflation Par</button>
+            </div>
+        </div>
+    }
+</body>
+</html>

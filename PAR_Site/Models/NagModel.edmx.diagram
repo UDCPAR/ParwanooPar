@@ -4,21 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d0c6d5a638a4425ab0b9336e743654bb" Name="Diagram1">
-        <EntityTypeShape EntityType="NagParTestModel.tblDivisionIndex" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblFileLibrary" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblProjectPhase" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblSubjectIndex" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblTicketData" Width="1.5" PointX="2.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblTicketIndex" Width="1.5" PointX="4.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblUserIndex" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblCategory" Width="1.5" PointX="6.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblCustomerIndex" Width="1.5" PointX="6.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblPriorityIndex" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblTechIndex" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblTicketStatusIndex" Width="1.5" PointX="8.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblTicketTypeIndex" Width="1.5" PointX="8.75" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="NagParTestModel.tblTypeOfMap" Width="1.5" PointX="8.75" PointY="6" IsExpanded="true" />
+      <Diagram DiagramId="3958aad098bf4ebba0b1ff117798346e" Name="Diagram1">
+        <EntityTypeShape EntityType="NagParDemoModel.tblProjectName" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblTicketIndex" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblUserIndex" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblCategory" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblCustomerIndex" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblDivisionIndex" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblFileLibrary" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblPriorityIndex" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblProjectPhase" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblSubjectIndex" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblTechIndex" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblTicketData" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblTicketStatusIndex" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblTicketTypeIndex" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NagParDemoModel.tblTypeOfMap" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

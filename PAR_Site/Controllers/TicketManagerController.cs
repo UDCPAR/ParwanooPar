@@ -13,9 +13,61 @@ namespace PAR_Site.Controllers
 
     public class TicketManagerController : Controller
     {
-        NagParTestEntities db = new NagParTestEntities();
+        NagParDemoEntities db = new NagParDemoEntities();
         // GET: TicketManager
         public ActionResult CreatePars()
+        {
+            string Project_Name = Session["Selected_Project"].ToString();
+
+            var Project = db.tblSubjectIndexes.Select(x => new SelectListItem
+            {
+                Text = x.Subject,
+                Value = x.Subject
+            }).ToList();
+            ViewBag.ProjectType = Project;
+            var ProjectPhase = db.tblProjectPhases.Select(x => new SelectListItem
+            {
+                Text = x.Description,
+                Value = x.Description
+            }).ToList();
+            ViewBag.ProjectPhase = ProjectPhase;
+            var Techlist = db.tblUserIndexes.Where(x => x.AccountStatusID == 2).Select(p => new SelectListItem()
+            {
+                Value = p.UserID.ToString(),
+                Text = p.FirstName + " " + p.LastName
+            }).ToList();
+            ViewBag.username = Techlist;
+            var item = db.tblCategories.Select(p => new SelectListItem()
+            {
+                Value = p.Category,
+                Text = p.Category
+            }).ToList();
+            var Division = db.tblDivisionIndexes.Select(x => new SelectListItem
+            {
+                Text = x.DivisionName,
+                Value = x.DivisionName
+            }).ToList();
+            ViewBag.Division = Division;
+            ViewBag.Issue = item;
+            return View();
+            //if (Project_Name == "Enmax")
+            //{
+            //    return RedirectToAction("Enmax_CreatePar", "TicketManager");
+            //}
+            //else if (Project_Name=="PGE Par")
+            //{
+            //    return RedirectToAction("PGE_Par_CreatePar", "TicketManager");
+            //}
+            //else if (Project_Name=="")
+            //{
+            //    return RedirectToAction("", "TicketManager");
+            //}
+            //else
+            //{
+            //    return View();
+            //}
+        }
+        public ActionResult Enmax_CreatePar()
         {
             var Project = db.tblSubjectIndexes.Select(x => new SelectListItem
             {
@@ -41,14 +93,37 @@ namespace PAR_Site.Controllers
                 Text = p.Category
             }).ToList();
             ViewBag.Issue = item;
-
+          
+            return View();
+        }
+        public ActionResult PGE_Par_CreatePar()
+        {
+            var Division = db.tblDivisionIndexes.Select(x => new SelectListItem
+            {
+                Text = x.DivisionName,
+                Value = x.DivisionName
+            }).ToList();
+            ViewBag.Division = Division;
+         
+            var Techlist = db.tblUserIndexes.Where(x => x.AccountStatusID == 2).Select(p => new SelectListItem()
+            {
+                Value = p.UserID.ToString(),
+                Text = p.FirstName + " " + p.LastName
+            }).ToList();
+            ViewBag.username = Techlist;
+            var item = db.tblCategories.Select(p => new SelectListItem()
+            {
+                Value = p.Category,
+                Text = p.Category
+            }).ToList();
+            ViewBag.Issue = item;
             return View();
         }
         [HttpPost]
         public ActionResult CreatePars(_CreatePar par)
         {
-
-            string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+            string Project_Name = Session["Selected_Project"].ToString();
+            string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz";
             string TicketNumber = string.Empty;
             for (int i = 0; i < 8; i++)
             {
@@ -68,10 +143,10 @@ namespace PAR_Site.Controllers
                 try
                 {
                     DateTime date = DateTime.Now;
-                    ticketIndex.ProjectType1 = par.ProjectType.TrimEnd();
+                    ticketIndex.ProjectType1 = par.ProjectType;
                     ticketIndex.ProjectPhase = par.ProjectPhase;
-                    ticketIndex.Location = par.Location;
-                    ticketIndex.DivisionName = par.Location;
+                    ticketIndex.Issue = par.Location;
+                    ticketIndex.DivisionName = par.DivisionName;
                     ticketIndex.Category = par.Issue;
                     ticketIndex.Map = par.WorkOrderNo;
                     ticketIndex.TicketTitle = par.Subject;
@@ -82,6 +157,7 @@ namespace PAR_Site.Controllers
                     ViewBag.Techid = Convert.ToInt32(par.TechName);
                     ticketIndex.TechID = Convert.ToInt32(par.TechName);
                     ticketIndex.TicketOpen = date;
+                    ticketIndex.ProjectType = Project_Name;
                     ticketIndex.TicketStatusID = 1;
                     ticketIndex.OpenedBy = 1;
                     ticketIndex.TicketNumber = TicketNum;
@@ -92,15 +168,14 @@ namespace PAR_Site.Controllers
                               select s.TicketID).ToList().FirstOrDefault();
                     ViewBag.TicketID = id;
                     TempData["TicketID"] = id;
-                    Mail();
+                    //Mail();
                 }
                 catch (Exception)
                 {
+                    //throw ex;
                     return View("Error", "Shared");
                 }
                 var files = par.Files.ToList();
-                //var fileCheck = par.Files[0];
-                ////if (fileCheck != null)
                 if (files[0] != null)
                 {
                     foreach (HttpPostedFileBase file in files)
@@ -119,6 +194,7 @@ namespace PAR_Site.Controllers
                             tblFile.OFileName = fileName;
                             tblFile.FileExt = ext;
                             tblFile.FileSize = byteCount;
+                            tblFile.ProjectType = Project_Name;
                             tblFile.UploadDateTime = date;
                             tblFile.TicketID = Convert.ToInt32(ViewBag.TicketID);
                             tblFile.UserID = Convert.ToInt32(Session["UserID"]);
@@ -131,10 +207,8 @@ namespace PAR_Site.Controllers
                             return View("Error", "Shared");
                         }
                     }
-
                 }
             }
-
             return RedirectToAction("UpdatePar", "TicketManager", new { id = ViewBag.TicketID });
         }
         [HttpPost]
@@ -169,6 +243,114 @@ namespace PAR_Site.Controllers
             }
 
         }
+        public ActionResult Enmax_UpdatePar(int id)
+        {
+            EditViewModel model = new EditViewModel();
+            try
+            {
+                var updatecomments = (from d in db.tblTicketDatas
+                                      join u in db.tblUserIndexes
+                                      on d.UserID equals u.UserID
+                                      where d.TicketID == id
+                                      select new All_Updates
+                                      {
+                                          Techname = u.FirstName + " " + u.LastName,
+                                          UpdateComment = d.UpdateDescription,
+                                          Date = d.UpdateDateTime
+                                      }).ToList();
+                ViewBag.updatecomments = updatecomments;
+                var totalfiles = db.tblFileLibraries.Where(x => x.TicketID == id).ToList();
+                ViewBag.totalfiles = totalfiles;
+                ViewBag.totalfilescount = totalfiles.Count();
+                if (id > 0)
+                {
+                    var par = db.tblTicketIndexes.Where(x => x.TicketID == id).FirstOrDefault();
+                    model.ParNum = par.TicketID;
+                    ViewBag.Tckt = par.TicketID;
+                    Session["TickedID"] = par.TicketID;
+                    TempData["TID"] = par.TicketID;
+                    model.Opened = par.TicketOpen.ToString("MM/dd/yyyy");
+                    var TechID = par.UserID;
+                    TempData["UserID"] = par.UserID;
+                    var TName = db.tblUserIndexes.Where(x => x.UserID == TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault();
+                    model.InitiatedBy = TName;
+                    var Techid = par.TechID;
+                    TempData["TechID"] = par.TechID;
+                    ViewBag.AssignName = db.tblUserIndexes.Where(x => x.AccountStatusID == 2).Select(p => new SelectListItem()
+                    {
+                        Value = p.UserID.ToString(),
+                        Text = p.FirstName + " " + p.LastName
+                    }).ToList();
+                    ViewBag.selectedval = db.tblTicketIndexes.Where(x => x.TechID == par.TechID).Select(y => y.TechID).FirstOrDefault();
+                    model.Division = par.Issue;
+                    model.Issue = par.Category;
+                    ViewBag.IssueText = par.Category.Trim();
+                    var item = db.tblCategories.Select(p => new SelectListItem()
+                    {
+                        Value = p.Category.Trim(),
+                        Text = p.Category.Trim()
+                    }).ToList();
+                    ViewBag.Issue = item;
+                    model.WorkOrderNo = par.Map;
+                    ViewBag.selectedvalue = par.TicketStatusID;
+                    model.Subject = par.TicketTitle;
+                    ViewBag.Subj = par.TicketTitle;
+                    model.Description = par.TicketDescription;
+                    model.ClosedDate = par.TicketClose.ToString();
+                    Session["TicketNum"] = par.TicketNumber;
+                    int AID = Convert.ToInt32(Session["AccountTypeID"]);
+                    if (AID == 1)
+                    {
+                        var AccountId = db.tblTicketStatusIndexes.Select(y => new SelectListItem
+                        {
+                            Value = y.TicketStatusID.ToString(),
+                            Text = y.TicketStatus,
+                        }).ToList();
+                        ViewBag.AccountId = AccountId;
+                    }
+                    else
+                    {
+                        if (par.TicketStatusID == 3)
+                        {
+                            var AccountId = db.tblTicketStatusIndexes.Where(x => x.UserAccountTypeID == 2 || x.StatusOrder == 4).Select(y => new SelectListItem
+                            {
+                                Value = y.TicketStatusID.ToString(),
+                                Text = y.TicketStatus,
+                            }).ToList();
+                            ViewBag.AccountId = AccountId;
+                        }
+                        else if (par.TicketStatusID == 7)
+                        {
+                            var AccountId = db.tblTicketStatusIndexes.Where(x => x.UserAccountTypeID == 2 || x.StatusOrder == 5).Select(y => new SelectListItem
+                            {
+                                Value = y.TicketStatusID.ToString(),
+                                Text = y.TicketStatus,
+                            }).ToList();
+                            ViewBag.AccountId = AccountId;
+                        }
+                        else
+                        {
+                            var AccountId = db.tblTicketStatusIndexes.Where(x => x.UserAccountTypeID == 2).Select(y => new SelectListItem
+                            {
+                                Value = y.TicketStatusID.ToString(),
+                                Text = y.TicketStatus,
+                            }).ToList();
+                            ViewBag.AccountId = AccountId;
+                        }
+                    }
+
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Default");
+                }
+            }
+            catch (Exception)
+            {
+                return View("Error", "Shared");
+            }
+        }
         public ActionResult UpdatePar(int id)
         {
 
@@ -193,6 +375,7 @@ namespace PAR_Site.Controllers
                 {
                     var par = db.tblTicketIndexes.Where(x => x.TicketID == id).FirstOrDefault();
                     model.ParNum = par.TicketID;
+                    ViewBag.Tckt = par.TicketID;
                     Session["TickedID"] = par.TicketID;
                     TempData["TID"] = par.TicketID;
                     model.Opened = par.TicketOpen.ToString("MM/dd/yyyy");
@@ -208,7 +391,7 @@ namespace PAR_Site.Controllers
                         Text = p.FirstName + " " + p.LastName
                     }).ToList();
                     ViewBag.selectedval = db.tblTicketIndexes.Where(x => x.TechID == par.TechID).Select(y => y.TechID).FirstOrDefault();
-                    model.Divison = par.Location;
+                    model.Division = par.DivisionName;
                     model.Issue = par.Category;
                     ViewBag.IssueText = par.Category.Trim();
                     var item = db.tblCategories.Select(p => new SelectListItem()
@@ -220,6 +403,7 @@ namespace PAR_Site.Controllers
                     model.WorkOrderNo = par.Map;
                     ViewBag.selectedvalue = par.TicketStatusID;
                     model.Subject = par.TicketTitle;
+                    ViewBag.Subj = par.TicketTitle;
                     model.Description = par.TicketDescription;
                     model.ClosedDate = par.TicketClose.ToString();
                     Session["TicketNum"] = par.TicketNumber;
@@ -336,10 +520,59 @@ namespace PAR_Site.Controllers
             return RedirectToAction("UpdatePar", "TicketManager", new { id = viewModel.ParNum });
         }
 
-        public ActionResult ViewTotalPars()
+        public JsonResult ViewPar(int status = 0)
+        {
+
+            List<tblUserIndex> tblUsers = db.tblUserIndexes.ToList();
+            List<tblTicketIndex> tblTickets = db.tblTicketIndexes.ToList();
+
+            if (status > 0)
+            {
+                var TotalOpen = (from t in tblTickets
+                                 join u in tblUsers
+                                 on t.UserID equals u.UserID
+                                 where t.TicketStatusID == status
+                                 select new ViewModel
+                                 {
+                                     Map = t.Map,
+                                     TicketTittle = t.TicketTitle,
+                                     TicketID = t.TicketID,
+                                     Status = db.tblTicketStatusIndexes.Where(x => x.TicketStatusID == t.TicketStatusID).FirstOrDefault().TicketStatus,
+                                     OpenDate = t.TicketOpen.ToString("MM/dd/yyyy"),
+                                     InitiatedBy = u.FirstName + " " + u.LastName,
+                                     AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
+                                 }).ToList();
+                return Json(TotalOpen, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var TotalOpen = (from t in tblTickets
+                                 join u in tblUsers
+                                 on t.UserID equals u.UserID
+                                 where t.TicketStatusID != 3 && t.TicketStatusID != 7
+                                 select new ViewModel
+                                 {
+                                     Map = t.Map,
+                                     TicketTittle = t.TicketTitle,
+                                     TicketID = t.TicketID,
+                                     Status = db.tblTicketStatusIndexes.Where(x => x.TicketStatusID == t.TicketStatusID).FirstOrDefault().TicketStatus,
+                                     OpenDate = t.TicketOpen.ToString("MM/dd/yyyy"),
+                                     InitiatedBy = u.FirstName + " " + u.LastName,
+                                     AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
+                                 }).ToList();
+                return Json(TotalOpen, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public ActionResult ViewTotalPars(int status = 0)
         {
             List<tblUserIndex> tblUsers = db.tblUserIndexes.ToList();
             List<tblTicketIndex> tblTickets = db.tblTicketIndexes.ToList();
+            ViewBag.AccountId = db.tblTicketStatusIndexes.Select(y => new SelectListItem
+            {
+                Value = y.TicketStatusID.ToString(),
+                Text = y.TicketStatus,
+            }).ToList();
             var TotalOpen = (from t in tblTickets
                              join u in tblUsers
                              on t.UserID equals u.UserID
@@ -355,7 +588,8 @@ namespace PAR_Site.Controllers
                                  AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
                              }).ToList();
             ViewBag.TotalOpen = TotalOpen;
-            var TotalClosed = (from t in tblTickets
+
+            var Totalclosed = (from t in tblTickets
                                join u in tblUsers
                                on t.UserID equals u.UserID
                                where t.TicketStatusID == 3 || t.TicketStatusID == 7
@@ -369,7 +603,8 @@ namespace PAR_Site.Controllers
                                    InitiatedBy = u.FirstName + " " + u.LastName,
                                    AssignTo = tblUsers.Where(x => x.UserID == t.TechID).Select(y => y.FirstName + " " + y.LastName).FirstOrDefault()
                                }).ToList();
-            ViewBag.TotalClosed = TotalClosed;
+            ViewBag.TotalClosed = Totalclosed;
+
             return View();
         }
         public void Mail()
@@ -414,7 +649,7 @@ namespace PAR_Site.Controllers
             HTML = HTML + "<Div style='margin-left:0%;text-align:justify; text-justify: inter-word'>";
             HTML = HTML + "<p>Hello <strong>" + GreatingName + "</strong>,</p>";
             HTML = HTML + "<p style='line-height: 1;' >Nag PAR Requesting your Review</p></br>";
-            HTML = HTML + "<p><strong>Visit: http://www.parwanopar.com/Account/Login/"+obj.TicketID;
+            HTML = HTML + "<p><strong>Visit: http://www.parwanopar.com/Account/Login/" + obj.TicketID;
             HTML = HTML + "<h5 align='center' style='margin-right:25%;'>---(Please DO NOT reply to this email/Use the PAR system for communications regarding this PAR)---</h5>";
             HTML = HTML + "<table width='75%' height: auto bgcolor='#ffffff' border=" + 1 + " cellspacing=" + 1 + " cellpadding=" + 3 + " style='Allign:center'>";
             HTML = HTML + "<tbody>";
@@ -444,7 +679,7 @@ namespace PAR_Site.Controllers
             HTML = HTML + "<td width='10%' class='_x2' bgcolor='#cccccc'><strong style=' float: right'>Project Type :</strong></td>";
             HTML = HTML + "<td width='15%' class='_x2' bgcolor='#f0f0f0'>" + obj.ProjectType1 + "</td>";
             HTML = HTML + "<td width='10%' class='_x2' bgcolor='#cccccc'><strong style='float: right'>Location :</strong></td>";
-            HTML = HTML + "<td width='17%' class='_x2' bgcolor='#f0f0f0'>" + obj.Location + "</td>";
+            HTML = HTML + "<td width='17%' class='_x2' bgcolor='#f0f0f0'>" + obj.Issue + "</td>";
             HTML = HTML + "</tr>";
             HTML = HTML + "<tr>";
             HTML = HTML + "<td width='10%' class='_x2' bgcolor='#cccccc'><strong style=' float: right'>Issue :</strong></td>";

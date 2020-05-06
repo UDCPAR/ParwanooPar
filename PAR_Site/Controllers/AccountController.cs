@@ -12,15 +12,20 @@ namespace PAR_Site.Controllers
 {
     public class AccountController : Controller
     {
-        private NagParTestEntities db = new NagParTestEntities();
+        private NagParDemoEntities db = new NagParDemoEntities();
 
         public ActionResult Login()
         {
+            ViewBag.Project = db.tblProjectNames.Select(p => new SelectListItem()
+            {
+                Value = p.Project_Name,
+                Text = p.Project_Name
+            }).ToList();
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(Login lg, int id = 0)
+        public ActionResult Login(Login lg, int id = 0, string btnProject=null)
         {
             if (Session["UserName"] != null)
             {
@@ -37,18 +42,44 @@ namespace PAR_Site.Controllers
                     {
                         Session["UserType"] = "Admin";
                     }
+                    
+                    
+
+
+
                     var S_EXT = DateTime.UtcNow.AddMinutes(30);
                     Session["CountDownTime"] = S_EXT.ToString("ddd MMM dd yyy HH:mm:ss");
                     Session["UserName"] = obj.FirstName.ToString() + " " + obj.LastName.ToString();
                     Session["UserID"] = obj.UserID.ToString();
+                    Session["Project"] = obj.Project.ToString();
                     Session["CustomerID"] = obj.CustomerID.ToString();
                     Session["AccountTypeID"] = obj.AccountTypeID.ToString();
+
+                    string AllProject = Session["Project"].ToString();
+                    var result = AllProject.Contains(btnProject);
+                    if (result)
+                    {
+                        Session["Selected_Project"] = btnProject;
+                    }
+                    else
+                    {
+                        ViewBag.Project = db.tblProjectNames.Select(p => new SelectListItem()
+                        {
+                            Value = p.Project_Name,
+                            Text = p.Project_Name
+                        }).ToList();
+                        ViewBag.msg = "You are not authorised to access this project";
+                    }
                     if (id > 0)
                     {
                         return RedirectToAction("UpdatePar", "TicketManager", new { id = id });
                     }
                     else
+                    {
+                        //    return RedirectToAction("SelectProject", "Account");
                         return RedirectToAction("Index", "Default");
+                    }
+                   
                 }
                 else
                 {
@@ -133,7 +164,9 @@ namespace PAR_Site.Controllers
                 new SelectListItem{ Value="1",Text="Yes"},
                  new SelectListItem{ Value="2",Text="No"}
             };
+
             ViewBag.Userlist = db.tblUserIndexes.Where(x => x.UserType == "2").ToList();
+            ViewBag.Project = db.tblProjectNames.ToList();
             return View();
         }
         [HttpPost]
@@ -205,6 +238,81 @@ namespace PAR_Site.Controllers
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
             return Json(values, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult SelectProject()
+        {
+            ViewBag.Project = db.tblProjectNames.Select(p => new SelectListItem()
+            {
+                Value = p.Project_Name,
+                Text = p.Project_Name
+            }).ToList();
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SelectProject(string btnProject)
+        {
+            string AllProject = Session["Project"].ToString();
+            var result = AllProject.Contains(btnProject);
+            if(result)
+            {
+                Session["Selected_Project"] = btnProject;
+                return RedirectToAction("Index", "Default");
+            }
+            else
+            {
+                ViewBag.Project = db.tblProjectNames.Select(p => new SelectListItem()
+                {
+                    Value = p.Project_Name,
+                    Text = p.Project_Name
+                }).ToList();
+                ViewBag.msg = "You are not authorised to access this project";
+            }
+            //var pj = AllProject.Split(',');
+            //bool result = false;
+            //foreach (var item in pj)
+            //{
+            //    if (item == Project)
+            //    {
+            //        Session["Selected_Project"] = Project;
+            //        result = true;
+            //    }
+            //}
+            //if (result)
+            //{
+            //    return RedirectToAction("Index", "Default");
+            //}
+            //else
+            //{
+            //    ViewBag.Project = db.tblProjectNames.Select(p => new SelectListItem()
+            //    {
+            //        Value = p.Project_Name,
+            //        Text = p.Project_Name
+            //    }).ToList();
+            //    ViewBag.msg = "Your are not access this project";
+            //}
+            return View();
+        }
+        public void ProjectAsign(int id,int UserId)
+        {
+            var Pname = db.tblProjectNames.Where(x => x.Id == id).Select(y => y.Project_Name).FirstOrDefault();
+            var p = db.tblUserIndexes.Where(x => x.UserID == UserId).FirstOrDefault();
+            if (p.Project.Contains(Pname))
+            {
+
+            }
+            else
+            {
+                p.Project += "," + Pname;
+                db.SaveChanges();
+            }
+           
+        }
+        public void ProjectReject(int id, int UserId)
+        {
+            var Pname = db.tblProjectNames.Where(x => x.Id == id).Select(y => y.Project_Name).FirstOrDefault();
+            var p = db.tblUserIndexes.Where(x => x.UserID == UserId).FirstOrDefault();
+            p.Project= "," + Pname;
+            db.SaveChanges();
         }
     }
 }

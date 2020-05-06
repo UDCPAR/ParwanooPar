@@ -9,7 +9,7 @@
                 if (msg == "Yes") {
                     document.getElementById('Existuser').style.display = "block";
                     document.getElementById('CreateUser').disabled = true;
-                   
+
                 }
                 else {
                     document.getElementById('Existuser').style.display = "none";
@@ -25,6 +25,7 @@
             type: "GET",
             url: "/Account/EditUser?Id= " + Id,
             success: function (data) {
+
                 var obj = JSON.parse(data);
                 $("#UserID").val(obj.UserID);
                 $("#firstname").val(obj.FirstName);
@@ -34,11 +35,48 @@
                 $("#email").val(obj.EmailAddress);
                 $("#AccountTypeID").val(obj.AccountTypeID);
                 $("#AccountStatusID").val(obj.AccountStatusID);
-                 $("#UserType").val(obj.UserType);
+                $("#UserType").val(obj.UserType);
+                var s = obj.Project;
+
+                var d = s.split(',');
+                for (i in d) {
+                    var data = "<tr>" +
+                        "<td class='Pname' id='"+d[i]+"'>" + d[i] + "</td></tr>"
+                    //x += d[i] + "<br>";
+                    $(".tableP tbody").append(data);
+                }
+                //document.getElementById("Project").innerHTML = x;
             }
         });
+        
+        $(document).ready(function () {
+            //var id;
+            $("#tt tr td").on("click", function () {
+               var id = $(this).attr('id');
+                alert(id);
+            });
+            
+            $("#btnProject").on("click", function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/ProjectAsign?id=" + id + "&UserId=" + Id,
+                    success: function (result) {
+                        window.reload();
+                    }
+                })
+            })
+            $("#btnReject").on("click", function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/ProjectAsign?id=" + id + "&UserId=" + Id,
+                    success: function (result) {
+                        window.reload();
+                    }
+                })
+            })
+        });
     }
-     function ConfrimDelete(Id) {
+    function ConfrimDelete(Id) {
         $("#UserID").val(Id);
         $("#ConfirmDelete").modal("show");
     }
@@ -55,116 +93,159 @@
     }
 
 </script>
-
+<style>
+    .box {
+        height: 150px;
+        border: 1px solid black;
+    }
+</style>
 @using (Html.BeginForm("NewUser", "Account", FormMethod.Post))
 {
-        <div class="col-lg-9" style="padding-top:5px;">
-            <p style="margin-top:-35px;"><a href="~/Default/Index" style="text-decoration: underline;">Main Menu</a> >> Create New User</p>
-            <div class="col-lg-12" style="background-color:lightskyblue;color:white;">
-                <h5><b>New User</b></h5>
+    <div class="col-lg-9" style="padding-top:5px;">
+        <p style="margin-top:-35px;"><strong><a href="~/Default/Index" style="text-decoration:underline"><i class="fa fa-home"></i> Main Menu</a></strong> >> Create New User</p>
+        <div class="col-lg-12" style="background-color:lightskyblue;color:white;">
+            <h5><b>New User</b></h5>
+        </div>
+        
+        <div class="col-lg-12">
+            <div class="col-lg-5">
+                <h4><strong>Total Project</strong></h4>
+                <div class="box">
+                    <table id="tt">
+                        <thead></thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Project)
+                            {
+                                <tr>
+                                    <td class="Pname" id="@item.Id">@item.Project_Name</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <div class="col-lg-2">
+                <button class="btn btn-primary" id="btnProject" style="margin-top:70px;margin-left:25px;"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+                <br />
+                <button class="btn btn-danger" style="margin-left:25px;margin-top:3px;"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+            </div>
+            <div class="col-lg-5">
+                <h4><strong>Login Authority</strong></h4>
+                <div class="box">
+                    <table class="tableP" id="tt">
+                        <thead></thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <br />
             <br />
             <br />
             <p>Fill out the form below to create a new User. Required items are marked with an asterisk (*).</p>
-            <br />
-            <div class="col-lg-6">
-                <div class="form-group">
-                    @Html.HiddenFor(model => model.UserID, new { @id = "UserID" })
-                    <label>FirstName*</label>
-                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @id = "firstname", @class = "form-control", required = "required", autocomplete = "off" } })
-                </div>
-                <div class="form-group">
-                    <label>LastName*</label>
-                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @id ="lastname", @class = "form-control", required = "required", autocomplete = "off" } })
-                </div>
-                <div class="form-group">
-                    <label>Username*</label>
-                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @id = "Username", required = "required", autocomplete = "off", onfocusout = "myFunction()" })
-                    <label id="Existuser" style="display:none;">User Name Exist. Choose another one!!</label>
-                </div>
-                <div class="form-group">
-                    <label>Password*</label>
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new {@id ="password", @class = "form-control", Type = "Password", required = "required", autocomplete = "off" } })
-                </div>
-                @*<div class="form-group">
-                        <label>Phone</label>
-                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control",required = "required", autocomplete = "off" } })
-                    </div>*@
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>EmailAddress*</label>
-                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new {@id ="email", @class = "form-control", required = "required", autocomplete = "off" } })
-                </div>
-                <div class="form-group">
-                    <label>Closing Rights*</label>
-                    @Html.DropDownList("AccountTypeID", new SelectList(ViewBag.AccountTypeID, "Value", "Text"), "Select", new { @class = "form-control", @id = "AccountTypeID", required = "required" })
-                </div>
-                <div class="form-group">
-                    <label>Assign To Authority*</label>
-                    @Html.DropDownList("AccountStatusID", new SelectList(ViewBag.AccountStatusID, "Value", "Text"), "Select", new { @class = "form-control", @id = "AccountStatusID", required = "required" })
-                </div>
-                <div class="form-group">
-                    <label>Admin User*</label>
-                    @Html.DropDownList("UserType", new SelectList(ViewBag.UserType, "Value", "Text"), "Select", new { @class = "form-control", @id = "UserType", required = "required" })
-                </div>
+        </div>
+        <br />
+        <div class="col-lg-6">
+            <div class="form-group">
+                @Html.HiddenFor(model => model.UserID, new { @id = "UserID" })
+                <label>FirstName*</label>
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @id = "firstname", @class = "form-control", required = "required", autocomplete = "off" } })
             </div>
             <div class="form-group">
-                <div class="col-lg-12" style="float:right;">
-                    <input type="submit" value="Submit" id="CreateUser" class="btn btn-success" />
-                </div>
+                <label>LastName*</label>
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @id = "lastname", @class = "form-control", required = "required", autocomplete = "off" } })
             </div>
-            <div class="col-lg-12">
-                <br />
-                <h4><b>User List:-</b></h4>
-                <table style="width:100%;" class="table">
-                    <thead>
+            <div class="form-group">
+                <label>Username*</label>
+                @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @id = "Username", required = "required", autocomplete = "off", onfocusout = "myFunction()" })
+                <label id="Existuser" style="display:none;">User Name Exist. Choose another one!!</label>
+            </div>
+            <div class="form-group">
+                <label>Password*</label>
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "password", @class = "form-control", Type = "Password", required = "required", autocomplete = "off" } })
+            </div>
+            @*<div class="form-group">
+                    <label>Phone</label>
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control",required = "required", autocomplete = "off" } })
+                </div>*@
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>EmailAddress*</label>
+                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @id = "email", @class = "form-control", required = "required", autocomplete = "off" } })
+            </div>
+            <div class="form-group">
+                <label>Closing Rights*</label>
+                @Html.DropDownList("AccountTypeID", new SelectList(ViewBag.AccountTypeID, "Value", "Text"), "Select", new { @class = "form-control", @id = "AccountTypeID", required = "required" })
+            </div>
+            <div class="form-group">
+                <label>Assign To Authority*</label>
+                @Html.DropDownList("AccountStatusID", new SelectList(ViewBag.AccountStatusID, "Value", "Text"), "Select", new { @class = "form-control", @id = "AccountStatusID", required = "required" })
+            </div>
+            <div class="form-group">
+                <label>Admin User*</label>
+                @Html.DropDownList("UserType", new SelectList(ViewBag.UserType, "Value", "Text"), "Select", new { @class = "form-control", @id = "UserType", required = "required" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12" style="float:right;">
+                <input type="submit" value="Submit" id="CreateUser" class="btn btn-success" />
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <br />
+            <h4><b>User List:-</b></h4>
+            <table style="width:100%;" class="table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>UserName</th>
+                        <th>Password</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody style="width:100%;">
+                    @foreach (var item in ViewBag.Userlist)
+                    {
                         <tr>
-                            <th>User ID</th>
-                            <th>FirstName</th>
-                            <th>LastName</th>
-                            <th>UserName</th>
-                            <th>Password</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <td>@item.UserID</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Username</td>
+                            <td>@item.Password</td>
+                            <td><p class="btn btn-primary" onclick="EditUser(@item.UserID);"><span class="glyphicon glyphicon-edit"></span></p></td>
+                            <td><a href="#" onclick="ConfrimDelete(@item.UserID);" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
                         </tr>
-                    </thead>
-                    <tbody style="width:100%;">
-                        @foreach (var item in ViewBag.Userlist)
-                        {
-                            <tr>
-                                <td>@item.UserID</td>
-                                <td>@item.FirstName</td>
-                                <td>@item.LastName</td>
-                                <td>@item.Username</td>
-                                <td>@item.Password</td>
-                                <td><p class="btn btn-primary" onclick="EditUser(@item.UserID);"><span class="glyphicon glyphicon-edit"></span></p></td>
-                                <td><a href="#" onclick="ConfrimDelete(@item.UserID);" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                    }
+                </tbody>
+            </table>
 
-                <div class="modal fade" id="ConfirmDelete">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <a herf="#" class="close" data-dismiss="modal">&times;</a>
-                                <h4 id="modaltitle"></h4>
-                            </div>
-                            <div class="modal-body">
-                                <h4>Are You Sure? You want delete this record.</h4>
-                            </div>
-                            <div class="modal-footer">
-                                <a herf="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
-                                <a herf="#" class="btn btn-danger" onclick="Delete()">Confirm</a>
-                            </div>
+            <div class="modal fade" id="ConfirmDelete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <a herf="#" class="close" data-dismiss="modal">&times;</a>
+                            <h4 id="modaltitle"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Are You Sure? You want delete this record.</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <a herf="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                            <a herf="#" class="btn btn-danger" onclick="Delete()">Confirm</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-       
+    </div>
+
 }
 
 

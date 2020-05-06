@@ -2,35 +2,94 @@
 
 <script src="~/Scripts/JqueryPaging/jquery.simplePagination.js"></script>
 <link href="~/Scripts/JqueryPaging/simplePagination.css" rel="stylesheet" />
-
+<style>
+    #dv {
+        padding: 0px 12px;
+        color: black;
+    }
+</style>
 <script>
-    jQuery(function ($) {
-        var items = $("#Closedtable tbody tr");
-        var numItems = items.length;
-        var perPage = 50;
-        items.slice(perPage).hide();
-        $(".pagination-page").pagination({
-            items: numItems,
-            itemsOnPage: perPage,
-            cssStyle: "dark-theme",
-            //cssStyle: "light-theme",
-            onPageClick: function (pageNumber) {
-                var showFrom = perPage * (pageNumber - 1);
-                var showTo = showFrom + perPage;
-                items.hide()
-                    .slice(showFrom, showTo).show();
-            }
-        });
-        function checkFragment() {
-            var hash = window.location.hash || "#page-1";
-            hash = hash.match(/^#page-(\d+)$/);
+    
+        jQuery(function ($) {
+            var items = $("#tblebody tr");
+            var numItems = items.length;
+            var perPage = 50;
+            items.slice(perPage).hide();
+            $(".pagination-page").pagination({
+                items: numItems,
+                itemsOnPage: perPage,
+                cssStyle: "dark-theme",
+                //cssStyle: "light-theme",
+                onPageClick: function (pageNumber) {
+                    var showFrom = perPage * (pageNumber - 1);
+                    var showTo = showFrom + perPage;
+                    items.hide()
+                        .slice(showFrom, showTo).show();
+                }
+            });
+            function checkFragment() {
+                var hash = window.location.hash || "#page-1";
+                hash = hash.match(/^#page-(\d+)$/);
 
-            if (hash) {
-                $(".pagination-page").pagination("selectPage", parseInt(hash[1]));
+                if (hash) {
+                    $(".pagination-page").pagination("selectPage", parseInt(hash[1]));
+                }
+            };
+            $(window).bind("popstate", checkFragment);
+            checkFragment();
+        });
+    
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: "/TicketManager/ViewPar",
+            type: "Post",
+            success: function (TotalOpen) {
+                //var data = JSON.parse(TotalOpen);
+                $.each(TotalOpen, function (index, item) {
+                    var data = "<tr id='Tabletr'>" +
+                        "<td>" + item.TicketTittle + "</td>" +
+                        "<td>" + item.TicketID + "</td>" +
+                        "<td>" + item.OpenDate + "</td>" +
+                        "<td>" + item.Status + "</td>" +
+                        "<td>" + item.InitiatedBy + "</td>" +
+                        "<td>" + item.AssignTo + "</td></tr>"
+                    $(".table-striped tbody").append(data);
+                });
             }
-        };
-        $(window).bind("popstate", checkFragment);
-        checkFragment();
+            
+        })
+        $("#dv").change(function () {
+            var d = $("#dv").val();
+            $.ajax({
+                url: "/TicketManager/ViewPar?Status=" + d,
+                type: "Post",
+                success: function (TotalOpen) {
+                    $("#tblebody tr").remove();
+                    if (TotalOpen[0] != null) {
+                        $.each(TotalOpen, function (index, item) {
+
+                            var data = "<tr id='Tabletr'>" +
+                                "<td>" + item.TicketTittle + "</td>" +
+                                "<td>" + item.TicketID + "</td>" +
+                                "<td>" + item.OpenDate + "</td>" +
+                                "<td>" + item.Status + "</td>" +
+                                "<td>" + item.InitiatedBy + "</td>" +
+                                "<td>" + item.AssignTo + "</td></tr>"
+                            $(".table-striped tbody").append(data);
+                        });
+                    }
+                    else {
+                        var data = "<tr>" +
+                            "<td>No Data</td></tr>"
+                        $(".table-striped tbody").append(data);
+                    }
+                }
+            })
+           
+        });
+        
     });
 
 </script>
@@ -38,7 +97,11 @@
 @using (Html.BeginForm())
 {
     <div class="col-lg-9" style="margin-top:-35px;">
-        <p><a href="~/Default/Index" style="text-decoration: underline;">Main Menu</a> >> PAR Details</p>
+        <p>
+            <strong>
+                <a href="~/Default/Index" style="text-decoration: underline"><i class="fa fa-home"></i> Main Menu</a>
+            </strong> >> PAR Details
+        </p>
         <div class="col-lg-12" style="background-color: lightskyblue;margin-top:5px; color: white;">
             <h5><b>PAR History</b></h5>
         </div>
@@ -48,62 +111,63 @@
         <div class="col-lg-12" style="background-color:lightskyblue; color:white;">
             <h5><b>Open PARs</b></h5>
         </div>
-        <table class="table-striped" width="100%">
-            <tbody>
-                <tr>
-                    <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
-                    <td><div style="width:237px;" id="OpenPars">Subject</div></td>
-                    <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
-                    <td><div style="width:97px;" id="OpenPars">Opened</div></td>
-                    <td><div style="width:100px;" id="OpenPars">Status</div></td>
-                    <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
-                    <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
-                </tr>
-                @foreach (var item in ViewBag.TotalOpen)
-                {
-                    <tr>
-                        <td><div style="width:99px;" id="ParFields">@item.Map</div></td>
-                        <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
-                        <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
-                        <td><div style="width:97px;" id="ParFields">@item.OpenDate</div></td>
-                        <td><div style="width:100px;" id="ParFields">@item.Status</div></td>
-                        <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
-                        <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <div class="col-lg-12" style="background-color:lightskyblue; color:white;">
-            <h5><b>Closed PARs</b></h5>
-        </div>
-
         <table class="table-striped" id="Closedtable" width="100%">
             <thead>
                 <tr>
-                    <td><div style="width:99px;" id="OpenPars">Work Order</div></td>
                     <td><div style="width:237px;" id="OpenPars">Subject</div></td>
                     <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
-                    <td><div style="width:97px;" id="OpenPars">Opened</div></td>
-                    <td><div style="width:100px;" id="OpenPars">Status</div></td>
+                    <td><div style="width:117px;" id="OpenPars">Opened</div></td>
+                    <td><div style="width:179px;" id="OpenPars">@Html.DropDownList("ParStatus", new SelectList(ViewBag.AccountId, "Value", "Text"), "Status", new { @id = "dv", @class = "btn btn-link" })</div></td>
                     <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
                     <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in ViewBag.TotalClosed)
-                {
-                    <tr>
-                        <td><div style="width:99px;" id="ParFields">@item.Map</div></td>
-                        <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
-                        <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
-                        <td><div style="width:97px;" id="ParFields">@item.OpenDate</div></td>
-                        <td><div style="width:100px;" id="ParFields">@item.Status</div></td>
-                        <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
-                        <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
-                    </tr>
-                }
+            <tbody id="tblebody">
+
+                @*@foreach (var item in ViewBag.TotalOpen)
+                    {
+                        <tr>
+                            <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
+                            <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
+                            <td><div style="width:117px;" id="ParFields">@item.OpenDate</div></td>
+                            <td><div style="width:179px;" id="ParFields">@item.Status</div></td>
+                            <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
+                            <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
+                        </tr>
+                    }*@
             </tbody>
         </table>
+        <br />
+        <br />
+        @*<div class="col-lg-12" style="background-color:lightskyblue; color:white;">
+                <h5><b>Closed PARs</b></h5>
+            </div>
+
+            <table class="table-striped" id="Closedtable" width="100%">
+                <thead>
+                    <tr>
+                        <td><div style="width:237px;" id="OpenPars">Subject</div></td>
+                        <td><div style="width:67px;" id="OpenPars">PAR #</div></td>
+                        <td><div style="width:117px;" id="OpenPars">Opened</div></td>
+                        <td><div style="width:179px;" id="OpenPars">@Html.DropDownList("ParStatus", new SelectList(ViewBag.AccountId, "Value", "Text"), "Status", new { @id = "dv", @class = "btn btn-link" })</div></td>
+                        <td><div style="width:112px;" id="OpenPars">Initiated By</div></td>
+                        <td><div style="width:112px;" id="OpenPars">Assigned To</div></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.TotalClosed)
+                    {
+                        <tr>
+                            <td><div style="width:237px;text-align:left;" id="ParFields"><a>@Html.ActionLink((string)item.TicketTittle, "UpdatePar", "TicketManager", new { id = item.TicketID }, null)</a></div></td>
+                            <td><div style="width:67px;" id="ParFields">@item.TicketID</div></td>
+                            <td><div style="width:117px;" id="ParFields">@item.OpenDate</div></td>
+                            <td><div style="width:179px;" id="ParFields">@item.Status</div></td>
+                            <td><div style="width:112px;" id="ParFields">@item.InitiatedBy</div></td>
+                            <td><div style="width:112px;" id="ParFields">@item.AssignTo</div></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>*@
         <br />
         <div id="pagination" class="pagination-page">
         </div>

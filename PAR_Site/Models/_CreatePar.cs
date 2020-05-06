@@ -16,6 +16,7 @@ namespace PAR_Site.Models
         public string ProjectType { get; set; }
         public string ProjectPhase { get; set; }
         public string Location { get; set; }
+        public string DivisionName { get; set; }
         public string TechName { get; set; }
         public string Issue { get; set; }
         public string WorkOrderNo { get; set; }

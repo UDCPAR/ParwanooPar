@@ -4,8 +4,8 @@
 {
 
     <div class="col-lg-9" style="margin-top:-35px;">
-        <p><a href="~/Default/Index" style="text-decoration:underline">Main Menu</a> >> Create New PAR</p>
-        <div class="col-lg-12" style="background-color: lightskyblue; margin-top: 5px; color: white; ">
+        <p><strong><a href="~/Default/Index" style="text-decoration:underline"><i class="fa fa-home"></i> Main Menu</a></strong> >> Create New PAR</p>
+        <div class="col-lg-12" style="background-color: lightskyblue; margin-top: 5px;color: white;">
             <h5><b>PAR Information</b></h5>
         </div>
         <div class="col-lg-12">
@@ -13,36 +13,67 @@
             <p>Fill out the form below to create a new PAR. Required items are marked with an asterisk (*).</p>
             <p><b>Note:</b> If you need to attach supporting materials to this PAR (i.e. images, documents) you will be prompted to do so after the PAR has been created.</p>
         </div>
-        <div class="col-lg-12">
-            <div class="col-lg-2" id="NewPar_Title">Project Type: *</div>
-            <div class="col-lg-4" id="NewPar_Input">
-                @Html.DropDownList("ProjectType", new SelectList(ViewBag.ProjectType, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+
+
+        @if (Session["Selected_Project"].ToString() == "Enmax")
+        {
+            <div class="col-lg-12">
+                <div class="col-lg-2" id="NewPar_Title">Project Type: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.DropDownList("ProjectType", new SelectList(ViewBag.ProjectType, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+                </div>
+                <div class="col-lg-2" id="NewPar_Title">Project Phase: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.DropDownList("ProjectPhase", new SelectList(ViewBag.ProjectPhase, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+                </div>
             </div>
-            <div class="col-lg-2" id="NewPar_Title">Project Phase: *</div>
-            <div class="col-lg-4" id="NewPar_Input">
-                @Html.DropDownList("ProjectPhase", new SelectList(ViewBag.ProjectPhase, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+            <div class="col-lg-12">
+                <div class="col-lg-2" id="NewPar_Title">Location: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.TextBoxFor(m => m.Location, new { @id = "Input_Fields", @class = "text-danger", required = "required" })
+                </div>
+                <div class="col-lg-2" id="NewPar_Title">Assign To: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.DropDownList("TechName", new SelectList(ViewBag.username, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+                </div>
             </div>
-        </div>
-        <div class="col-lg-12">
-            <div class="col-lg-2" id="NewPar_Title">Location: *</div>
-            <div class="col-lg-4" id="NewPar_Input">
-                @Html.TextBoxFor(m => m.Location, new { @id = "Input_Fields", @class = "text-danger", required = "required" })
+            <div class="col-lg-12">
+                <div class="col-lg-2" id="NewPar_Title">Issue: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.DropDownList("Issue", new SelectList(ViewBag.Issue, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+                </div>
+                <div class="col-lg-2" id="NewPar_Title">Work Order Number: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.TextBoxFor(m => m.WorkOrderNo, new { @id = "Input_Fields", @class = "text-danger", required = "required" })
+                </div>
             </div>
-            <div class="col-lg-2" id="NewPar_Title">Assign To: *</div>
-            <div class="col-lg-4" id="NewPar_Input">
-                @Html.DropDownList("TechName", new SelectList(ViewBag.username, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+        }
+
+        @if (Session["Selected_Project"].ToString() == "PGE Par")
+        {
+            <div class="col-lg-12">
+                <div class="col-lg-2" id="NewPar_Title">Division: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.DropDownList("Division", new SelectList(ViewBag.Division, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+                </div>
+                <div class="col-lg-2" id="NewPar_Title">Assign To: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.DropDownList("TechName", new SelectList(ViewBag.username, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+                </div>
             </div>
-        </div>
-        <div class="col-lg-12">
-            <div class="col-lg-2" id="NewPar_Title">Issue: *</div>
-            <div class="col-lg-4" id="NewPar_Input">
-                @Html.DropDownList("Issue", new SelectList(ViewBag.Issue, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+            <div class="col-lg-12">
+                <div class="col-lg-2" id="NewPar_Title">Issue: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.DropDownList("Issue", new SelectList(ViewBag.Issue, "Value", "Text"), "- Select -", new { @id = "ddl_Fields", @class = "text-danger", required = "required" })
+                </div>
+                <div class="col-lg-2" id="NewPar_Title">Work Order Number: *</div>
+                <div class="col-lg-4" id="NewPar_Input">
+                    @Html.TextBoxFor(m => m.WorkOrderNo, new { @id = "Input_Fields", @class = "text-danger", required = "required" })
+                </div>
             </div>
-            <div class="col-lg-2" id="NewPar_Title">Work Order Number: *</div>
-            <div class="col-lg-4" id="NewPar_Input">
-                @Html.TextBoxFor(m => m.WorkOrderNo, new { @id = "Input_Fields", @class = "text-danger", required = "required" })
-            </div>
-        </div>
+        }
+
+
         <div class="col-lg-12">
             <div class="col-lg-2" id="NewPar_Title">Subject: *</div>
             <div class="col-lg-10" id="NewPar_Input">

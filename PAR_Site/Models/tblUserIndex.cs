@@ -23,7 +23,8 @@ namespace PAR_Site.Models
         public string EmailAddress { get; set; }
         public int AccountTypeID { get; set; }
         public int AccountStatusID { get; set; }
-        public int UserID { get; set; }
         public string UserType { get; set; }
+        public int UserID { get; set; }
+        public string Project { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace PAR_Site.Models
         public string Opened { get; set; }
         public string InitiatedBy { get; set; }
         public string AssignTo { get; set; }
-        public string Divison { get; set; }
+        public string Division { get; set; }
         public string Issue { get; set; }
         public string WorkOrderNo { get; set; }
         public string Subject { get; set; }

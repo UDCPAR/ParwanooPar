@@ -16,5 +16,6 @@ namespace PAR_Site.Models
     {
         public string DivisionName { get; set; }
         public int DivisionID { get; set; }
+        public string ProjectName { get; set; }
     }
 }
